@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/ingredients")
@@ -36,7 +35,7 @@ class IngredientController {
     @GetMapping("/{id}")
     ResponseEntity<Ingredient> readIngredient(@PathVariable int id) {
         return ingredientRepository.findById(id)
-                .map(ingredient -> ResponseEntity.ok(ingredient))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -49,6 +48,19 @@ class IngredientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<?> updateIngredient(@PathVariable int id,@RequestBody @Valid Ingredient toUpdate){
+        if(!ingredientRepository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        ingredientRepository.findById(id)
+                .ifPresent(ingredient -> {
+                    ingredient.setName(toUpdate.getName());
+                    ingredientRepository.save(ingredient);
+                });
+        return ResponseEntity.ok(ingredientRepository.findById(id));
     }
 
 }
