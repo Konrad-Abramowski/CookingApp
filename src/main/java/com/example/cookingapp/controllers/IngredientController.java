@@ -39,4 +39,16 @@ class IngredientController {
                 .map(ingredient -> ResponseEntity.ok(ingredient))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteIngredient(@PathVariable int id) {
+        if (ingredientRepository.existsById(id)) {
+            ingredientRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 }
