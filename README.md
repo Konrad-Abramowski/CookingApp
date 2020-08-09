@@ -41,7 +41,10 @@ sudo apt install default-jdk
 
 Execute:
 ```
-./mvnw spring-boot:run
+$ cd <place-you-want-to-store-cookingapp>
+$ git clone https://github.com/Konrad-Abramowski/CookingApp.git
+$ cd CookingApp
+$ ./mvnw spring-boot:run
 ```
 
 CookingApp will be running under the address:
