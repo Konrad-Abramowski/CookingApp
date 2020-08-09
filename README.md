@@ -6,7 +6,7 @@ Web application for finding recipes for ingredients you already have in your kit
 
 - [Getting Started](#getting_started)
 
-## Getting Started <a name = "getting_started"></a>
+## Getting Started (Ubuntu) <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
@@ -31,7 +31,7 @@ apt install openjdk-11-jre-headless
 apt install openjdk-8-jre-headless
 ```
 
-Execute the following command:
+In such a case, execute the following command:
 
 ```
 sudo apt install default-jdk
@@ -39,7 +39,7 @@ sudo apt install default-jdk
 
 ### Installing 
 
-Execute:
+Execute the following command::
 ```
 $ cd <place-you-want-to-store-cookingapp>
 $ git clone https://github.com/Konrad-Abramowski/CookingApp.git
