@@ -5,15 +5,22 @@
     <title>Cooking made easy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" media="all"
-          href="../static/css/main.css" th:href="@{/css/main.css}" />
+          href="../static/css/main.css" th:href="@{/css/main.css}"/>
 </head>
 
 <body>
 <header>
     <h1>Cooking made easy</h1>
+    <button><a href="#form">Start</a></button>
 </header>
-<section>
-
-</section>
+<div>
+    <a name="form"></a>
+    <fieldset>
+        <legend>Add ingredients:</legend>
+        <label>Ingredient
+            <input type="text">
+        </label>
+    </fieldset>
+</div>
 </body>
 </html>
