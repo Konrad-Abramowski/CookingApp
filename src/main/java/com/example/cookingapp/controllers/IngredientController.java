@@ -5,11 +5,11 @@ import com.example.cookingapp.repositories.IngredientRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @Controller
 @RequestMapping("/ingredients")
@@ -28,9 +28,15 @@ class IngredientController {
     }
 
     @GetMapping
-    ResponseEntity<List<Ingredient>> readAllIngredients() {
-        return ResponseEntity.ok(ingredientRepository.findAll());
+    String readAllIngredients(Model model) {
+        model.addAttribute("ingredients", ingredientRepository.findAll());
+        return "ingredients";
     }
+
+//    @GetMapping
+//    ResponseEntity<List<Ingredient>> readAllIngredients() {
+//        return ResponseEntity.ok(ingredientRepository.findAll());
+//    }
 
     @GetMapping("/{id}")
     ResponseEntity<Ingredient> readIngredient(@PathVariable int id) {
@@ -51,8 +57,8 @@ class IngredientController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateIngredient(@PathVariable int id,@RequestBody @Valid Ingredient toUpdate){
-        if(!ingredientRepository.existsById(id)){
+    ResponseEntity<?> updateIngredient(@PathVariable int id, @RequestBody @Valid Ingredient toUpdate) {
+        if (!ingredientRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         ingredientRepository.findById(id)
