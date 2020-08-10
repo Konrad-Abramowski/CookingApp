@@ -5,7 +5,7 @@
 }
 
 html {
-    font-family: Ubuntu;
+    font-family: Ubuntu, arial, sans-serif;
     scroll-behavior: smooth;
 }
 
