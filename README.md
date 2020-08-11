@@ -39,7 +39,7 @@ sudo apt install default-jdk
 
 ### Installing 
 
-Execute the following command::
+Execute the following commands:
 ```
 $ cd <place-you-want-to-store-cookingapp>
 $ git clone https://github.com/Konrad-Abramowski/CookingApp.git
