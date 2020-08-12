@@ -30,35 +30,35 @@ public class IngredientInRecipe implements Serializable {
         this.amount = amount;
     }
 
-    IngredientInRecipeKey getId() {
+    public IngredientInRecipeKey getId() {
         return id;
     }
 
-    void setId(final IngredientInRecipeKey id) {
+    public void setId(final IngredientInRecipeKey id) {
         this.id = id;
     }
 
-    Recipe getRecipe() {
+    public Recipe getRecipe() {
         return recipe;
     }
 
-    void setRecipe(final Recipe recipe) {
+    public void setRecipe(final Recipe recipe) {
         this.recipe = recipe;
     }
 
-    Ingredient getIngredient() {
+    public Ingredient getIngredient() {
         return ingredient;
     }
 
-    void setIngredient(final Ingredient ingredient) {
+    public void setIngredient(final Ingredient ingredient) {
         this.ingredient = ingredient;
     }
 
-    String getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    void setAmount(final String amount) {
+    public void setAmount(final String amount) {
         this.amount = amount;
     }
 }
