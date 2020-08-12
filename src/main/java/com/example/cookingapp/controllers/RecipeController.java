@@ -2,6 +2,7 @@ package com.example.cookingapp.controllers;
 
 import com.example.cookingapp.model.Recipe;
 import com.example.cookingapp.repositories.RecipeRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,15 @@ class RecipeController {
     ResponseEntity<Recipe> addRecipe(@RequestBody @Valid Recipe toCreate){
         Recipe result = recipeRepository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteIngredient(@PathVariable int id) {
+        if (recipeRepository.existsById(id)) {
+            recipeRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
