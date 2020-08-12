@@ -22,19 +22,19 @@ public class Recipe {
         this.name = name;
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    void setId(final int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setName(final String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 }
