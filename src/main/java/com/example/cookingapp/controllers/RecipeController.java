@@ -4,10 +4,10 @@ import com.example.cookingapp.model.Recipe;
 import com.example.cookingapp.repositories.RecipeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @Controller
@@ -30,5 +30,11 @@ class RecipeController {
         return recipeRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    ResponseEntity<Recipe> addRecipe(@RequestBody @Valid Recipe toCreate){
+        Recipe result = recipeRepository.save(toCreate);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 }
