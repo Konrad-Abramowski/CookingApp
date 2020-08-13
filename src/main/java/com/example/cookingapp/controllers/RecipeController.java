@@ -1,10 +1,16 @@
 package com.example.cookingapp.controllers;
 
+import com.example.cookingapp.model.Ingredient;
+import com.example.cookingapp.model.IngredientInRecipe;
+import com.example.cookingapp.model.IngredientInRecipeKey;
 import com.example.cookingapp.model.Recipe;
+import com.example.cookingapp.repositories.IngredientInRecipeRepository;
 import com.example.cookingapp.repositories.RecipeRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,9 +22,11 @@ import java.util.List;
 class RecipeController {
 
     private final RecipeRepository recipeRepository;
+    private final IngredientInRecipeRepository ingredientInRecipeRepository;
 
-    RecipeController(final RecipeRepository recipeRepository) {
+    RecipeController(final RecipeRepository recipeRepository, final IngredientInRecipeRepository ingredientInRecipeRepository) {
         this.recipeRepository = recipeRepository;
+        this.ingredientInRecipeRepository = ingredientInRecipeRepository;
     }
 
     @GetMapping
@@ -37,6 +45,13 @@ class RecipeController {
     ResponseEntity<Recipe> addRecipe(@RequestBody @Valid Recipe toCreate){
         Recipe result = recipeRepository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
+    @PostMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<IngredientInRecipe> addIngredientToRecipe(@PathVariable(value = "id") final int recipeId,
+                                            @RequestBody @Valid Ingredient ingredient){
+        // TODO
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
