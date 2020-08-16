@@ -16,6 +16,11 @@ public class Amount {
     public Amount() {
     }
 
+    public Amount(final AmountType type, @NotNull final int number) {
+        this.type = type;
+        this.number = number;
+    }
+
     public Amount(final int id, final AmountType type, @NotNull final int number) {
         this.id = id;
         this.type = type;
