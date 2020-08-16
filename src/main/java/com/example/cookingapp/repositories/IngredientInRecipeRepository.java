@@ -14,11 +14,11 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "insert into INGREDIENT_IN_RECIPE(INGREDIENT_ID, RECIPE_ID, AMOUNT) " +
-            "values (:ingredient_id, :recipe_id, :amount)")
+    @Query(nativeQuery = true, value = "insert into INGREDIENT_IN_RECIPE(INGREDIENT_ID, RECIPE_ID, AMOUNT_ID) " +
+            "values (:ingredient_id, :recipe_id, :amount_id)")
     int addIngredientToRecipe(@Param("ingredient_id") int ingredient_id,
                                           @Param("recipe_id") int recipe_id,
-                                          @Param("amount") String amount);
+                                          @Param("amount_id") int amount);
 
 
 }
