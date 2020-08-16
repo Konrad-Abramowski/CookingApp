@@ -1,7 +1,6 @@
 package com.example.cookingapp.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 
@@ -17,13 +16,15 @@ public class IngredientInRecipe implements Serializable {
     @MapsId("ingredient_id")
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
-    @NotBlank(message = "Amount must be not empty!")
-    private String amount;
+    @ManyToOne
+    @MapsId("amount_id")
+    @JoinColumn(name = "amount_id")
+    private Amount amount;
 
     public IngredientInRecipe() {
     }
 
-    public IngredientInRecipe(final IngredientInRecipeKey id, final Recipe recipe, final Ingredient ingredient, @NotBlank(message = "Amount must be not empty!") final String amount) {
+    public IngredientInRecipe(final IngredientInRecipeKey id, final Recipe recipe, final Ingredient ingredient, final Amount amount) {
         this.id = id;
         this.recipe = recipe;
         this.ingredient = ingredient;
@@ -54,11 +55,11 @@ public class IngredientInRecipe implements Serializable {
         this.ingredient = ingredient;
     }
 
-    public String getAmount() {
+    public Amount getAmount() {
         return amount;
     }
 
-    public void setAmount(final String amount) {
+    public void setAmount(final Amount amount) {
         this.amount = amount;
     }
 }
