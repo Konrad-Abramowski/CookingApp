@@ -18,9 +18,17 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
     @Query(nativeQuery = true, value = "insert into INGREDIENT_IN_RECIPE(INGREDIENT_ID, RECIPE_ID, AMOUNT_ID) " +
             "values (:ingredient_id, :recipe_id, :amount_id)")
     int addIngredientToRecipe(@Param("ingredient_id") int ingredient_id,
-                                          @Param("recipe_id") int recipe_id,
-                                          @Param("amount_id") int amount);
+                              @Param("recipe_id") int recipe_id,
+                              @Param("amount_id") int amount);
 
 
     boolean existsById(IngredientInRecipeKey ingredientInRecipeKey);
+
+    @Query(nativeQuery = true, value = "select  I.NAME, A.NUMBER, A.TYPE" +
+            "from INGREDIENT_IN_RECIPE as IIR" +
+            "inner join AMOUNT A on A.ID = IIR.AMOUNT_ID" +
+            "inner join RECIPE R on R.ID = IIR.RECIPE_ID" +
+            "inner join INGREDIENT I on IIR.INGREDIENT_ID = I.ID" +
+            "where RECIPE_ID = :recipe_id")
+    void showRecipeInfo(@Param("recipe_id") int recipe_id);
 }
