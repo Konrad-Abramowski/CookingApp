@@ -1,6 +1,7 @@
 package com.example.cookingapp.repositories;
 
 import com.example.cookingapp.model.IngredientInRecipe;
+import com.example.cookingapp.model.IngredientInRecipeKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,5 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
                                           @Param("amount_id") int amount);
 
 
+    boolean existsById(IngredientInRecipeKey ingredientInRecipeKey);
 }
