@@ -57,13 +57,13 @@ class RecipeController {
                                                              @RequestParam int ingredientId,
                                                              @RequestParam String type,
                                                              @RequestParam int number) {
-        Amount amount = new Amount(AmountType.valueOf(type),number);
-        amountRepository.save(amount);
         IngredientInRecipeKey id = new IngredientInRecipeKey(recipeId, ingredientId);
         if (ingredientInRecipeRepository.existsById(id)){
             logger.warn("Such ingredientInRecipe already exists!");
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        Amount amount = new Amount(AmountType.valueOf(type),number);
+        amountRepository.save(amount);
         ingredientInRecipeRepository.addIngredientToRecipe(ingredientId, recipeId, amount.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
