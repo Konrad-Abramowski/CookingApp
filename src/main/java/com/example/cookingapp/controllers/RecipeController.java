@@ -58,15 +58,32 @@ class RecipeController {
                                                              @RequestParam String type,
                                                              @RequestParam int number) {
         IngredientInRecipeKey id = new IngredientInRecipeKey(recipeId, ingredientId);
-        if (ingredientInRecipeRepository.existsById(id)){
+        if (ingredientInRecipeRepository.existsById(id)) {
             logger.warn("Such ingredientInRecipe already exists!");
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        Amount amount = new Amount(AmountType.valueOf(type),number);
+        Amount amount = new Amount(AmountType.valueOf(type), number);
         amountRepository.save(amount);
         ingredientInRecipeRepository.addIngredientToRecipe(ingredientId, recipeId, amount.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Transactional
+    @DeleteMapping(value = "/{recipeId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<IngredientInRecipe> deleteIngredientFromRecipe(@PathVariable(value = "recipeId") final int recipeId,
+                                                                  @RequestParam int ingredientId) {
+        IngredientInRecipeKey id = new IngredientInRecipeKey(recipeId, ingredientId);
+        if (!ingredientInRecipeRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        IngredientInRecipe ingredientInRecipe = ingredientInRecipeRepository.findIngredientInRecipeById(id);
+        int amountId = ingredientInRecipe.getAmount().getId();
+        ingredientInRecipeRepository.deleteIngredientFromRecipe(ingredientId, recipeId);
+        logger.warn("id: " + ingredientInRecipe.getAmount().getId());
+        amountRepository.deleteById(amountId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteIngredient(@PathVariable int id) {
