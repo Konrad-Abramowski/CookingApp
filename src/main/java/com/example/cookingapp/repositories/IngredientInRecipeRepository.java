@@ -22,7 +22,9 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
                               @Param("amount_id") int amount);
 
 
-    boolean existsById(IngredientInRecipeKey ingredientInRecipeKey);
+    boolean existsById(IngredientInRecipeKey id);
+
+    IngredientInRecipe findIngredientInRecipeById(IngredientInRecipeKey id);
 
     @Query(nativeQuery = true, value = "select  I.NAME, A.NUMBER, A.TYPE" +
             "from INGREDIENT_IN_RECIPE as IIR" +
@@ -31,4 +33,12 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
             "inner join INGREDIENT I on IIR.INGREDIENT_ID = I.ID" +
             "where RECIPE_ID = :recipe_id")
     void showRecipeInfo(@Param("recipe_id") int recipe_id);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "delete from INGREDIENT_IN_RECIPE\n" +
+            "where RECIPE_ID = :recipe_id and INGREDIENT_ID = :ingredient_id")
+    void deleteIngredientFromRecipe(@Param("ingredient_id") int ingredient_id,
+                                    @Param("recipe_id") int recipe_id);
+
 }
