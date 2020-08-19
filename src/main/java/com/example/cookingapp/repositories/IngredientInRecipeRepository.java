@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 
 @Repository
 public interface IngredientInRecipeRepository extends JpaRepository<IngredientInRecipe, Integer> {
@@ -26,13 +29,13 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
 
     IngredientInRecipe findIngredientInRecipeById(IngredientInRecipeKey id);
 
-    @Query(nativeQuery = true, value = "select  I.NAME, A.NUMBER, A.TYPE" +
-            "from INGREDIENT_IN_RECIPE as IIR" +
-            "inner join AMOUNT A on A.ID = IIR.AMOUNT_ID" +
-            "inner join RECIPE R on R.ID = IIR.RECIPE_ID" +
-            "inner join INGREDIENT I on IIR.INGREDIENT_ID = I.ID" +
-            "where RECIPE_ID = :recipe_id")
-    void showRecipeInfo(@Param("recipe_id") int recipe_id);
+    @Query(nativeQuery = true, value = "select R.NAME as recipe_name, I.NAME as ingredient_name, A.NUMBER, A.TYPE\n" +
+            " from INGREDIENT_IN_RECIPE as IIR\n" +
+            "         inner join AMOUNT as A on A.ID = IIR.AMOUNT_ID\n" +
+            "         inner join RECIPE as R on R.ID = IIR.RECIPE_ID\n" +
+            "         inner join INGREDIENT as I on I.ID = IIR.INGREDIENT_ID\n" +
+            " where IIR.RECIPE_ID = :recipe_id")
+    List<Map<String, Object>> showRecipeInfo(@Param("recipe_id") int recipe_id);
 
     @Transactional
     @Modifying
