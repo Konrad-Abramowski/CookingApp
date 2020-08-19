@@ -6,6 +6,7 @@ import com.example.cookingapp.repositories.IngredientInRecipeRepository;
 import com.example.cookingapp.repositories.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/recipes")
@@ -38,11 +41,14 @@ class RecipeController {
         return ResponseEntity.ok(recipeRepository.findAll());
     }
 
-    @GetMapping("/{id}")
-    ResponseEntity<Recipe> readRecipe(@PathVariable int id) {
-        return recipeRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<?> readRecipe(@PathVariable int id) {
+        List<Map<String, Object>> result = ingredientInRecipeRepository.showRecipeInfo(id);
+        if (recipeRepository.existsById(id)) {
+            return ResponseEntity.ok(result);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
