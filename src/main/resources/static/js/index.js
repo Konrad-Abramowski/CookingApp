@@ -3,12 +3,12 @@ fetch('http://localhost:8080/ingredients')
     .then(data => {
         console.log(data)
         let dataArray = [];
-        for(let i in data){
+        for (let i in data) {
             dataArray.push(data[i]);
         }
         console.log(dataArray);
 
-        for(let i in dataArray){
+        for (let i in dataArray) {
             let divElement = document.createElement("div");
             let inputElement = document.createElement("input");
             inputElement.type = "checkbox";
@@ -22,5 +22,22 @@ fetch('http://localhost:8080/ingredients')
             document.getElementById("ingredientsForm").appendChild(divElement);
         }
     })
+
+
+async function postIngredients() {
+    const data = {
+        ids: Array.prototype.slice
+            .call(document.querySelectorAll('input:checked[type="checkbox"]')).map((inputElement) => inputElement.id)
+    }
+    const response = await fetch('http://localhost:8080/ingredients', {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify(data)
+    })
+    console.log(data);
+}
+
 
 
