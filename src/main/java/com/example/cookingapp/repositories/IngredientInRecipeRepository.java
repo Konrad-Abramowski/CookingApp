@@ -47,4 +47,10 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
     @Query(nativeQuery = true, value = "select distinct IIR.RECIPE_ID " +
             "from INGREDIENT_IN_RECIPE as IIR")
     List<Integer> findDistinctRecipeIds();
+
+    @Query(nativeQuery = true, value = "select  IIR.INGREDIENT_ID " +
+            "from INGREDIENT_IN_RECIPE as IIR " +
+            "where RECIPE_ID = :recipeId")
+    List<Integer> findIngredientIdsByRecipeId(@Param("recipeId") int recipeId);
+
 }
