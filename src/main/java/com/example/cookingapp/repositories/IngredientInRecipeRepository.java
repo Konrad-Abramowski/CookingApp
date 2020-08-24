@@ -44,4 +44,7 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
     void deleteIngredientFromRecipe(@Param("ingredient_id") int ingredient_id,
                                     @Param("recipe_id") int recipe_id);
 
+    @Query(nativeQuery = true, value = "select distinct IIR.RECIPE_ID " +
+            "from INGREDIENT_IN_RECIPE as IIR")
+    List<Integer> findDistinctRecipeIds();
 }
