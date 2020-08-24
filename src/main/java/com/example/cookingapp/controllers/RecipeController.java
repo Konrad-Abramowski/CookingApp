@@ -15,10 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/recipes")
@@ -55,6 +54,34 @@ class RecipeController {
     ResponseEntity<Recipe> addRecipe(@RequestBody @Valid Recipe toCreate) {
         Recipe result = recipeRepository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
+    @GetMapping(value = "/find")
+    ResponseEntity<?> findRecipeWithIngredients(@RequestBody @Valid List<Integer> ownedIngredientIds){
+        List<Integer> recipeIds = ingredientInRecipeRepository.findDistinctRecipeIds();
+        int resultRecipeIds = 0;
+        List<List<Map<String, Object>>> result = new ArrayList<List<Map<String, Object>>>();
+        int counter = 0;
+        for (int recipeId: recipeIds) {
+            List<Integer> ingredientsForRecipe = ingredientInRecipeRepository.findIngredientIdsByRecipeId(recipeId);
+            for (int ingredientId: ingredientsForRecipe) {
+                for(int ownedIngredient: ownedIngredientIds){
+                    if(ownedIngredient == ingredientId){
+                        resultRecipeIds++;
+                    }
+                }
+
+            }
+            result.add(ingredientInRecipeRepository.showRecipeInfo(recipeId));
+            Map<String, Object> toAdd = new HashMap<>();
+            toAdd.put("left", ingredientsForRecipe.size() - resultRecipeIds);
+            result.get(counter).add(toAdd);
+            resultRecipeIds = 0;
+            counter++;
+        }
+
+
+        return  ResponseEntity.ok(result);
     }
 
     @Transactional
