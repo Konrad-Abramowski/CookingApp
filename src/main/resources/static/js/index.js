@@ -29,7 +29,7 @@ async function postIngredients() {
         ids: Array.prototype.slice
             .call(document.querySelectorAll('input:checked[type="checkbox"]')).map((inputElement) => inputElement.id)
     }
-    const response = await fetch('http://localhost:8080/ingredients', {
+    const response = await fetch('http://localhost:8080/recipes/find', {
         'method': 'POST',
         'headers': {
             'Content-Type': 'application/json'
@@ -37,6 +37,7 @@ async function postIngredients() {
         'body': JSON.stringify(data)
     })
     console.log(data);
+    console.log(response);
 }
 
 
