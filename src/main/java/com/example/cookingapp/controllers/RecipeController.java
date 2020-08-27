@@ -62,9 +62,10 @@ class RecipeController {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @GetMapping(value = "/find")
-    ResponseEntity<?> findRecipeWithIngredients(@RequestBody @Valid List<Integer> ownedIngredientIds){
+    @PostMapping(value = "/find",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<?> findRecipeWithIngredients(@RequestBody  HashMap<String,int[]> ids){
         List<Integer> recipeIds = ingredientInRecipeRepository.findDistinctRecipeIds();
+        int[] ownedIngredientIds = ids.get("ids");
         int resultRecipeIds = 0;
         List<List<Map<String, Object>>> result = new ArrayList<List<Map<String, Object>>>();
         int counter = 0;

@@ -36,8 +36,9 @@ async function postIngredients() {
         },
         'body': JSON.stringify(data)
     })
+    console.log(data.ids.toString())
     console.log(data);
-    console.log(response);
+    console.log(await response.json());
 }
 
 
