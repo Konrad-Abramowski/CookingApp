@@ -9,64 +9,83 @@ html {
     scroll-behavior: smooth;
 }
 
-section {
-    background-image: url("../images/header.jpg");
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    font-family: arial, sans-serif;
+.carousel {
+    margin-bottom: 4rem;
 }
 
-section > * {
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+    height: 32rem;
+}
+
+.carousel-item > img {
     position: absolute;
+    top: 0;
+    left: 0;
+    height: 32rem;
 }
 
-section h1 {
-    background-color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    text-align: center;
-    color: white;
-    letter-spacing: 2px;
-    font-size: 60px;
-    padding: 20px;
-    top: 45%;
-    width: 100%;
-}
+/*.carousel-inner {*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*    height: 100%;*/
+/*}*/
 
-section button {
-    bottom: 80px;
-    right: 80px;
-    padding: 10px 50px;
-    border: 4px solid white;
-    background-color: transparent;
-}
+/*section {*/
+/*    background-image: url("../images/header.jpg");*/
+/*    background-attachment: fixed;*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*    height: 100vh;*/
+/*    font-family: arial, sans-serif;*/
+/*}*/
 
-section button a {
-    color: white;
-    text-decoration: none;
-    text-transform: uppercase;
-    text-shadow: 5px 5px 10px black;
-    font-family: roboto, arial, sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-}
+/*section > * {*/
+/*    position: absolute;*/
+/*}*/
 
-section button:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: 0.3s;
-}
+/*section h1 {*/
+/*    background-color: rgba(0, 0, 0, 0.5);*/
+/*    text-transform: uppercase;*/
+/*    text-align: center;*/
+/*    color: white;*/
+/*    letter-spacing: 2px;*/
+/*    font-size: 60px;*/
+/*    padding: 20px;*/
+/*    top: 45%;*/
+/*    width: 100%;*/
+/*}*/
 
+/*section button {*/
+/*    bottom: 80px;*/
+/*    right: 80px;*/
+/*    padding: 10px 50px;*/
+/*    border: 4px solid white;*/
+/*    background-color: transparent;*/
+/*}*/
 
-fieldset {
-    padding: 0.5em 1em;
-    border: 1px solid #aaaaaa;
-}
+/*section button a {*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*    text-transform: uppercase;*/
+/*    text-shadow: 5px 5px 10px black;*/
+/*    font-family: roboto, arial, sans-serif;*/
+/*    font-size: 40px;*/
+/*    font-weight: bold;*/
+/*}*/
 
-legend {
-    color: #aaaaaa;
-}
+/*section button:hover {*/
+/*    background-color: rgba(0, 0, 0, 0.5);*/
+/*    transition: 0.3s;*/
+/*}*/
 
 .page-footer {
     background-color: rgb(38, 50, 56);
@@ -93,7 +112,8 @@ legend {
     color: white;
     box-shadow: 5px 5px 10px black;;
 }
-.btn-social:hover{
+
+.btn-social:hover {
     opacity: 0.7;
     text-transform: none;
 }
@@ -113,4 +133,12 @@ legend {
 
 .btn-github {
     background-color: rgb(43, 43, 43);
+}
+
+/*.container {*/
+/*    max-width: 960px;*/
+/*}*/
+
+.lh-condensed {
+    line-height: 1.25;
 }
