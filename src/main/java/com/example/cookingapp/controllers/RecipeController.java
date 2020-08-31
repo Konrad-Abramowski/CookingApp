@@ -70,9 +70,11 @@ class RecipeController {
                     }
                 }
             }
-            result.add(ingredientInRecipeRepository.showRecipeInfo(recipeId));
+            result.add(ingredientInRecipeRepository.showRecipeIngredients(recipeId));
             Map<String, Object> toAdd = new HashMap<>();
             toAdd.put("MISSING_INGREDIENTS", ingredientsForRecipe.size() - resultRecipeIds);
+            toAdd.put("RECIPE_NAME",recipeRepository.findById(recipeId).get().getName());
+            toAdd.put("RECIPE_PREPARATION", recipeRepository.findById(recipeId).get().getPreparation());
             result.get(counter).add(toAdd);
             resultRecipeIds = 0;
             counter++;
