@@ -10,21 +10,21 @@ public class Amount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Enumerated(EnumType.STRING)
-    private AmountType type;
+    private Unit unit;
     @NotNull
     private int number;
 
     public Amount() {
     }
 
-    public Amount(final AmountType type, @NotNull final int number) {
-        this.type = type;
+    public Amount(final Unit unit, @NotNull final int number) {
+        this.unit = unit;
         this.number = number;
     }
 
-    public Amount(final int id, final AmountType type, @NotNull final int number) {
+    public Amount(final int id, final Unit unit, @NotNull final int number) {
         this.id = id;
-        this.type = type;
+        this.unit = unit;
         this.number = number;
     }
 
@@ -36,12 +36,12 @@ public class Amount {
         this.id = id;
     }
 
-    public AmountType getType() {
-        return type;
+    public Unit getUnit() {
+        return unit;
     }
 
-    public void setType(final AmountType amountType) {
-        this.type = amountType;
+    public void setUnit(final Unit unit) {
+        this.unit = unit;
     }
 
     public int getNumber() {

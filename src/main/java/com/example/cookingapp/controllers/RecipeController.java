@@ -4,14 +4,8 @@ import com.example.cookingapp.model.*;
 import com.example.cookingapp.repositories.AmountRepository;
 import com.example.cookingapp.repositories.IngredientInRecipeRepository;
 import com.example.cookingapp.repositories.RecipeRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.*;
 
@@ -92,14 +84,14 @@ class RecipeController {
     @PostMapping(value = "/{recipeId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<IngredientInRecipe> addIngredientToRecipe(@PathVariable(value = "recipeId") final int recipeId,
                                                              @RequestParam int ingredientId,
-                                                             @RequestParam String type,
+                                                             @RequestParam String unit,
                                                              @RequestParam int number) {
         IngredientInRecipeKey id = new IngredientInRecipeKey(recipeId, ingredientId);
         if (ingredientInRecipeRepository.existsById(id)) {
             logger.warn("Such ingredientInRecipe already exists!");
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        Amount amount = new Amount(AmountType.valueOf(type), number);
+        Amount amount = new Amount(Unit.valueOf(unit), number);
         amountRepository.save(amount);
         ingredientInRecipeRepository.addIngredientToRecipe(ingredientId, recipeId, amount.getId());
         return new ResponseEntity<>(HttpStatus.OK);

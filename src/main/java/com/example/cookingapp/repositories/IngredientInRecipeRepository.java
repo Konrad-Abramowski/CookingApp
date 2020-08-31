@@ -29,7 +29,7 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
 
     IngredientInRecipe findIngredientInRecipeById(IngredientInRecipeKey id);
 
-    @Query(nativeQuery = true, value = "select R.NAME as recipe_name, R.PREPARATION as recipe_preparation, I.NAME as ingredient_name, A.NUMBER, A.TYPE\n" +
+    @Query(nativeQuery = true, value = "select R.NAME as recipe_name, R.PREPARATION as recipe_preparation, I.NAME as ingredient_name, A.NUMBER, A.UNIT\n" +
             " from INGREDIENT_IN_RECIPE as IIR\n" +
             "         inner join AMOUNT as A on A.ID = IIR.AMOUNT_ID\n" +
             "         inner join RECIPE as R on R.ID = IIR.RECIPE_ID\n" +

@@ -1,6 +1,6 @@
 package com.example.cookingapp.model;
 
-public enum AmountType {
+public enum Unit {
     G("g"),
     DAG("dag"),
     KG("kg"),
@@ -9,7 +9,7 @@ public enum AmountType {
 
     public String amountType;
 
-    AmountType(final String amountType) {
+    Unit(final String amountType) {
         this.amountType = amountType;
     }
 
