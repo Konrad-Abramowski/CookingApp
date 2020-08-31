@@ -13,13 +13,17 @@ public class Recipe {
     private String name;
     @OneToMany(mappedBy = "recipe")
     private Set<IngredientInRecipe> amount;
+    @Column(length = 1000)
+    private String preparation;
 
     public Recipe() {
     }
 
-    public Recipe(final int id, @NotBlank(message = "Recipe`s name must be not empty!") final String name) {
+    public Recipe(final int id, @NotBlank(message = "Recipe`s name must be not empty!") final String name, final Set<IngredientInRecipe> amount, final String preparation) {
         this.id = id;
         this.name = name;
+        this.amount = amount;
+        this.preparation = preparation;
     }
 
     public int getId() {
@@ -36,5 +40,21 @@ public class Recipe {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    Set<IngredientInRecipe> getAmount() {
+        return amount;
+    }
+
+    public void setAmount(final Set<IngredientInRecipe> amount) {
+        this.amount = amount;
+    }
+
+    public String getPreparation() {
+        return preparation;
+    }
+
+    public void setPreparation(final String preparation) {
+        this.preparation = preparation;
     }
 }
