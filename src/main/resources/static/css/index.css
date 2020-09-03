@@ -21,6 +21,7 @@ html {
 
 .carousel-item {
     height: 32rem;
+    overflow: hidden;
 }
 
 .carousel-item > img {
