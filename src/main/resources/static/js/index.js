@@ -1,13 +1,10 @@
 fetch('http://localhost:8080/ingredients')
     .then(result => result.json())
     .then(data => {
-        console.log(data)
         let dataArray = [];
         for (let i in data) {
             dataArray.push(data[i]);
         }
-        console.log(dataArray);
-
         for (let i in dataArray) {
             let divElement = document.createElement("div");
             let inputElement = document.createElement("input");
@@ -36,10 +33,53 @@ async function postIngredients() {
         },
         'body': JSON.stringify(data)
     })
-    console.log(data.ids.toString())
-    console.log(data);
-    console.log(await response.json());
+    return response.json();
 }
 
+async function showAvailableRecipes() {
+    document.getElementById("recipeList").innerHTML = "";
+    let recipes = [];
+    recipes = await postIngredients();
+    for (let i in recipes) {
+        let divElement = document.createElement("div");
+        divElement.className = "card";
+        divElement.style = "width: 18rem";
 
+        let innerDivElement = document.createElement("div");
+        innerDivElement.className = "card-body";
+
+        let h5Element = document.createElement("h5");
+        h5Element.className = "card-title";
+        let h5Text = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_NAME);
+        h5Element.appendChild(h5Text);
+
+
+        let ulElement = document.createElement("ul");
+        for (let j in recipes[i]) {
+            if (j != recipes[i].length - 1) {
+                let liElement = document.createElement("li");
+                let liText = document.createTextNode(recipes[i][j].INGREDIENT_NAME);
+                liElement.appendChild(liText);
+                ulElement.appendChild(liElement);
+            }
+        }
+        let pElement = document.createElement("p");
+        pElement.className = "card-text";
+        let pText = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_PREPARATION);
+        pElement.appendChild(pText);
+
+        let aElement = document.createElement("a");
+
+        let secondAElement = document.createElement("a");
+
+        innerDivElement.appendChild(h5Element);
+        innerDivElement.appendChild(ulElement);
+        innerDivElement.appendChild(pElement);
+        innerDivElement.appendChild(aElement);
+        innerDivElement.appendChild(secondAElement);
+        divElement.appendChild(innerDivElement);
+
+        document.getElementById("recipeList").appendChild(divElement);
+    }
+}
 
