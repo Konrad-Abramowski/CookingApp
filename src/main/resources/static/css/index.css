@@ -64,7 +64,7 @@ html {
     box-shadow: 5px 5px 10px black;
 }
 
-.btn-social:hover{
+.btn-social:hover {
     text-decoration: none;
     color: white;
 }
@@ -111,5 +111,21 @@ html {
 @media (min-width: 62em) {
     .featurette-heading {
         margin-top: 7rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    #carousel-item2 {
+        min-height: 100%;
+        height: 150%;
+        width: auto;
+    }
+}
+
+@media (max-width: 780px) {
+    .carousel-item > img {
+        min-height: 100%;
+        height: 150%;
+        width: auto;
     }
 }
