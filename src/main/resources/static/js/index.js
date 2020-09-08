@@ -40,6 +40,9 @@ async function showAvailableRecipes() {
     document.getElementById("recipeList").innerHTML = "";
     let recipes = [];
     recipes = await postIngredients();
+    console.log(recipes);
+    recipes.sort(compareMISSING_INGREDIENTS);
+    console.log(recipes);
     for (let i in recipes) {
         let divElement = document.createElement("div");
         divElement.className = "card";
@@ -52,7 +55,6 @@ async function showAvailableRecipes() {
         h5Element.className = "card-title";
         let h5Text = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_NAME);
         h5Element.appendChild(h5Text);
-
 
         let ulElement = document.createElement("ul");
         for (let j in recipes[i]) {
@@ -81,5 +83,15 @@ async function showAvailableRecipes() {
 
         document.getElementById("recipeList").appendChild(divElement);
     }
+}
+
+function compareMISSING_INGREDIENTS(a, b) {
+    if (a[a.length - 1].MISSING_INGREDIENTS < b[b.length - 1].MISSING_INGREDIENTS) {
+        return -1
+    }
+    if (b[b.length - 1].MISSING_INGREDIENTS > a[a.length - 1].MISSING_INGREDIENTS) {
+        return 1
+    }
+    return 0
 }
 
