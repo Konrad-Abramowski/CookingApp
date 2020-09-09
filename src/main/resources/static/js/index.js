@@ -45,14 +45,14 @@ async function showAvailableRecipes() {
     console.log(recipes);
     for (let i in recipes) {
         let divElement = document.createElement("div");
-        divElement.className = "card";
+        divElement.className = "col-sm-4";
         divElement.style = "width: 18rem";
 
         let innerDivElement = document.createElement("div");
-        innerDivElement.className = "card-body";
+        innerDivElement.className = "card p-2 m-2";
 
         let h5Element = document.createElement("h5");
-        h5Element.className = "card-title";
+        h5Element.className = "card-title text-center";
         let h5Text = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_NAME);
         h5Element.appendChild(h5Text);
 
