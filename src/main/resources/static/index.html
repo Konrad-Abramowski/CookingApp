@@ -33,12 +33,14 @@
         </div>
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container col-12 d-flex justify-content-between">
-            <a href="#" class="navbar-brand d-flex align-items-center">
+        <div class="col-12 d-flex flex-row">
+            <a href="#" class="navbar-brand">
                 <i class="fas fa-pizza-slice m-1 "></i>
                 <strong>CookingApp</strong>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+            <a href="recipes.html.html" class="navbar-item">Recipes</a>
+            <a href="ingredients.html" class="navbar-item">Ingredients</a>
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -120,10 +122,7 @@
             <div>
                 <a name="form"></a>
                 <fieldset>
-                    <legend>Add ingredients:</legend>
-                    <label>Ingredient
-                        <input type="text">
-                    </label>
+                    <legend>Your ingredients:</legend>
                 </fieldset>
             </div>
             <form id="ingredientsForm">

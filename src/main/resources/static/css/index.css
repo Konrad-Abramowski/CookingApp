@@ -9,6 +9,24 @@ html {
     scroll-behavior: smooth;
 }
 
+
+.navbar-item {
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    color: #999;
+}
+
+.navbar-item:hover {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
 .carousel {
     margin-bottom: 4rem;
 }
