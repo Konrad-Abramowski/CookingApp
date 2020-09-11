@@ -9,62 +9,84 @@ html {
     scroll-behavior: smooth;
 }
 
-.table {
-    margin-top: 20px;
-    text-align: center;
+main{
+    min-height: 100vh;
 }
 
-table {
+.navbar-item {
     display: inline-block;
-    border-spacing: 0;
-    border-collapse: collapse;
-    overflow-x: auto;
-    max-width: 100%;
-    text-align: left;
-    vertical-align: top;
-    background: linear-gradient(rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%) 0 0, linear-gradient(rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%) 100% 0;
-    background-attachment: scroll, scroll;
-    background-size: 1px 100%, 1px 100%;
-    background-repeat: no-repeat, no-repeat;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    color: #999;
 }
 
-table caption {
-    font-size: 0.9em;
-    background: white;
+a.navbar-ingredients{
+    color: white;
 }
 
-table td, table th {
-    padding: 0.35em 0.75em;
-    vertical-align: top;
-    font-size: 0.9em;
-    border: 1px solid #f2f2f2;
-    border-top: 0;
-    border-left: 0;
+.navbar-item:hover {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
 }
 
-table td:first-child, table th:first-child {
-    padding-left: 0;
-    background-image: linear-gradient(to right, white 50%, rgba(255, 255, 255, 0) 100%);
-    background-size: 2px 100%;
-    background-repeat: no-repeat;
+.page-footer {
+    background-color: rgb(38, 50, 56);
 }
 
-table td:last-child, table th:last-child {
-    padding-right: 0;
-    border-right: 0;
-    background-image: linear-gradient(to left, white 50%, rgba(255, 255, 255, 0) 100%);
-    background-position: 100% 0;
-    background-size: 2px 100%;
-    background-repeat: no-repeat;
+.footer-copyright {
+    background-color: rgb(30, 40, 45);
+    color: rgb(142, 134, 123);
 }
 
-table td:only-child, table th:only-child {
-    background-image: linear-gradient(to right, white 50%, rgba(255, 255, 255, 0) 100%), linear-gradient(to left, white 50%, rgba(255, 255, 255, 0) 100%);
-    background-position: 0 0, 100% 0;
-    background-size: 2px 100%, 2px 100%;
-    background-repeat: no-repeat, no-repeat;
+.footer-copyright a {
+    color: rgb(255, 255, 255);
 }
 
-table th {
-    line-height: 1.2;
+.btn-social {
+    font-size: 20px;
+    line-height: 50px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    margin: 5px 2px;
+    display: inline-block;
+    border-radius: 50%;
+    color: white;
+    box-shadow: 5px 5px 10px black;
+}
+
+.btn-social:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.btn-social:hover {
+    opacity: 0.7;
+    text-transform: none;
+}
+
+.btn-facebook {
+    background-color: #3B5998;
+
+}
+
+.btn-google {
+    background-color: #dd4b39;
+}
+
+.btn-linkedin {
+    background-color: #007bb5;
+}
+
+.btn-github {
+    background-color: rgb(43, 43, 43);
+}
+
+.lh-condensed {
+    line-height: 1.25;
 }
