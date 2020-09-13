@@ -46,39 +46,92 @@ async function showAvailableRecipes() {
     for (let i in recipes) {
         let divElement = document.createElement("div");
         divElement.className = "col-sm-4";
-        divElement.style = "width: 18rem";
 
         let innerDivElement = document.createElement("div");
-        innerDivElement.className = "card p-2 m-2";
+        innerDivElement.className = "card overflow-auto p-2 m-2";
 
-        let h5Element = document.createElement("h5");
-        h5Element.className = "card-title text-center";
-        let h5Text = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_NAME);
-        h5Element.appendChild(h5Text);
+        let h4Element = document.createElement("h4");
+        h4Element.className = "card-title text-center font-weight-bold";
+        let h4Text = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_NAME);
+        h4Element.appendChild(h4Text);
 
-        let ulElement = document.createElement("ul");
+        let tableElement = document.createElement("table");
+        tableElement.className = "table";
+
+        let threadElement = document.createElement("thread");
+
+        let threadTrElement = document.createElement("tr");
+
+        let threadIngredientThElement = document.createElement("th");
+        let threadIngredientThText = document.createTextNode("Ingredient");
+        threadIngredientThElement.scope = "col";
+        threadIngredientThElement.appendChild(threadIngredientThText);
+
+        let threadAmountThElement = document.createElement("th");
+        let threadAmountThText = document.createTextNode("Amount");
+        threadAmountThElement.scope = "col";
+        threadAmountThElement.appendChild(threadAmountThText);
+
+        let threadUnitThElement = document.createElement("th");
+        let threadUnitThEText = document.createTextNode("Unit");
+        threadUnitThElement.scope = "col";
+        threadUnitThElement.appendChild(threadUnitThEText);
+
+        let tbodyElement = document.createElement("tbody");
+
+        for (let j in recipes[i]) {
+
+        }
+
         for (let j in recipes[i]) {
             if (j != recipes[i].length - 1) {
-                let liElement = document.createElement("li");
-                let liText = document.createTextNode(recipes[i][j].INGREDIENT_NAME);
-                liElement.appendChild(liText);
-                ulElement.appendChild(liElement);
+                let trElement = document.createElement("tr");
+
+                let ingredientTdElement = document.createElement("td");
+                let ingredientTdText = document.createTextNode(recipes[i][j].INGREDIENT_NAME);
+                ingredientTdElement.appendChild(ingredientTdText);
+
+                let amountTdElement = document.createElement("td");
+                let amountTdText = document.createTextNode(recipes[i][j].NUMBER);
+                amountTdElement.appendChild(amountTdText);
+
+                let unitTdElement = document.createElement("td");
+                let unitTdText = document.createTextNode(recipes[i][j].UNIT);
+                unitTdElement.appendChild(unitTdText);
+
+                trElement.appendChild(ingredientTdElement);
+                trElement.appendChild(amountTdElement);
+                trElement.appendChild(unitTdElement);
+                tbodyElement.appendChild(trElement);
             }
         }
-        let pElement = document.createElement("p");
-        pElement.className = "card-text";
+        let descriptionH5Element = document.createElement("h5");
+        descriptionH5Element.className = "font-weight-bold";
+        let descriptionH5Text = document.createTextNode("Description");
+        descriptionH5Element.appendChild(descriptionH5Text);
+
+
+        let descriptionPElement = document.createElement("p");
+        descriptionPElement.className = "card-text";
         let pText = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_PREPARATION);
-        pElement.appendChild(pText);
+        descriptionPElement.appendChild(pText);
 
-        let aElement = document.createElement("a");
+        let missingIngredientsH5Element = document.createElement("h5");
+        missingIngredientsH5Element.className = "font-weight-bold";
+        let missingIngredientsH5Text = document.createTextNode("Missing ingredients: " + recipes[i][recipes[i].length - 1].MISSING_INGREDIENTS);
+        missingIngredientsH5Element.appendChild(missingIngredientsH5Text);
 
-        let secondAElement = document.createElement("a");
-
-        innerDivElement.appendChild(h5Element);
-        innerDivElement.appendChild(ulElement);
-        innerDivElement.appendChild(pElement);
-        innerDivElement.appendChild(aElement);
-        innerDivElement.appendChild(secondAElement);
+        innerDivElement.appendChild(h4Element);
+        threadTrElement.appendChild(threadIngredientThElement);
+        threadTrElement.appendChild(threadAmountThElement);
+        threadTrElement.appendChild(threadUnitThElement);
+        threadElement.appendChild(threadTrElement);
+        tableElement.appendChild(threadElement);
+        tableElement.appendChild(tbodyElement);
+        innerDivElement.appendChild(tableElement);
+        innerDivElement.appendChild(descriptionH5Element);
+        innerDivElement.appendChild(descriptionPElement);
+        innerDivElement.appendChild(missingIngredientsH5Element);
         divElement.appendChild(innerDivElement);
 
         document.getElementById("recipeList").appendChild(divElement);
