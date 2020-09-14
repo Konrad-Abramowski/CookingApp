@@ -58,24 +58,24 @@ async function showAvailableRecipes() {
         let tableElement = document.createElement("table");
         tableElement.className = "table";
 
-        let threadElement = document.createElement("thread");
+        let theadElement = document.createElement("thead");
 
-        let threadTrElement = document.createElement("tr");
+        let theadTrElement = document.createElement("tr");
 
-        let threadIngredientThElement = document.createElement("th");
-        let threadIngredientThText = document.createTextNode("Ingredient");
-        threadIngredientThElement.scope = "col";
-        threadIngredientThElement.appendChild(threadIngredientThText);
+        let theadIngredientThElement = document.createElement("th");
+        let theadIngredientThText = document.createTextNode("Ingredient");
+        theadIngredientThElement.scope = "col";
+        theadIngredientThElement.appendChild(theadIngredientThText);
 
-        let threadAmountThElement = document.createElement("th");
-        let threadAmountThText = document.createTextNode("Amount");
-        threadAmountThElement.scope = "col";
-        threadAmountThElement.appendChild(threadAmountThText);
+        let theadAmountThElement = document.createElement("th");
+        let theadAmountThText = document.createTextNode("Amount");
+        theadAmountThElement.scope = "col";
+        theadAmountThElement.appendChild(theadAmountThText);
 
-        let threadUnitThElement = document.createElement("th");
-        let threadUnitThEText = document.createTextNode("Unit");
-        threadUnitThElement.scope = "col";
-        threadUnitThElement.appendChild(threadUnitThEText);
+        let theadUnitThElement = document.createElement("th");
+        let theadUnitThEText = document.createTextNode("Unit");
+        theadUnitThElement.scope = "col";
+        theadUnitThElement.appendChild(theadUnitThEText);
 
         let tbodyElement = document.createElement("tbody");
 
@@ -122,11 +122,11 @@ async function showAvailableRecipes() {
         missingIngredientsH5Element.appendChild(missingIngredientsH5Text);
 
         innerDivElement.appendChild(h4Element);
-        threadTrElement.appendChild(threadIngredientThElement);
-        threadTrElement.appendChild(threadAmountThElement);
-        threadTrElement.appendChild(threadUnitThElement);
-        threadElement.appendChild(threadTrElement);
-        tableElement.appendChild(threadElement);
+        theadTrElement.appendChild(theadIngredientThElement);
+        theadTrElement.appendChild(theadAmountThElement);
+        theadTrElement.appendChild(theadUnitThElement);
+        theadElement.appendChild(theadTrElement);
+        tableElement.appendChild(theadElement);
         tableElement.appendChild(tbodyElement);
         innerDivElement.appendChild(tableElement);
         innerDivElement.appendChild(descriptionH5Element);
