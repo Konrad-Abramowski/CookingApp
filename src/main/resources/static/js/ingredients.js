@@ -10,31 +10,35 @@ fetch('http://localhost:8080/ingredients')
         for (let i in dataArray) {
             let trElement = document.createElement("tr");
 
-            let thElement = document.createElement("th");
-            let thText = document.createTextNode(counter++);
-            thElement.scope = "row";
-            thElement.appendChild(thText);
+            let tdElement = document.createElement("td");
+            let tdText = document.createTextNode(counter++);
+            tdElement.appendChild(tdText);
 
-            let nameThElement = document.createElement("th");
-            let nameThText = document.createTextNode(dataArray[i].name);
-            nameThElement.appendChild(nameThText);
+            let nameTdElement = document.createElement("td");
+            let nameTdText = document.createTextNode(dataArray[i].name);
+            nameTdElement.appendChild(nameTdText);
 
-            let actionThElement = document.createElement("th");
+            let actionTdElement = document.createElement("td");
 
             let actionDeleteAElement = document.createElement("a");
             actionDeleteAElement.className = "badge badge-danger p-2 mr-1";
             actionDeleteAElement.text = "Delete";
-            actionThElement.appendChild(actionDeleteAElement);
+            actionTdElement.appendChild(actionDeleteAElement);
+
+            let actionPElement = document.createElement("p");
+            actionPElement.textContent = "|";
+            actionPElement.className = "d-inline font-weight-bold";
+            actionTdElement.appendChild(actionPElement);
 
             let actionUpdateAElement = document.createElement("a");
-            actionUpdateAElement.className = "badge badge-success p-2 mr-1";
+            actionUpdateAElement.className = "badge badge-success p-2 ml-1";
             actionUpdateAElement.text = "Edit";
-            actionThElement.appendChild(actionUpdateAElement);
+            actionTdElement.appendChild(actionUpdateAElement);
 
 
-            trElement.appendChild(thElement);
-            trElement.appendChild(nameThElement);
-            trElement.appendChild(actionThElement);
+            trElement.appendChild(tdElement);
+            trElement.appendChild(nameTdElement);
+            trElement.appendChild(actionTdElement);
             document.getElementById("ingredientTableBody").appendChild(trElement);
         }
     })
