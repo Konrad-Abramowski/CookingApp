@@ -11,6 +11,7 @@ async function showIngredients() {
     }
 
     let counter = 1;
+    let deleteOnClick;
     for (let i in dataArray) {
         let trElement = document.createElement("tr");
 
@@ -27,6 +28,9 @@ async function showIngredients() {
         let actionDeleteButtonElement = document.createElement("button");
         actionDeleteButtonElement.className = "btn btn-danger mr-1";
         actionDeleteButtonElement.textContent = "Delete";
+        actionDeleteButtonElement.onclick = deleteOnClick = () => deleteIngredient(dataArray[i].id);
+
+
         actionTdElement.appendChild(actionDeleteButtonElement);
 
         let actionUpdateAElement = document.createElement("button");
@@ -50,3 +54,26 @@ async function getIngredients() {
     })
     return response.json();
 }
+
+async function deleteIngredient(id) {
+
+    await fetch('http://localhost:8080/ingredients/' + id, {
+        'method': 'DELETE',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if(response.ok){
+            document.getElementById("ingredientTableBody").innerHTML = "";
+            showIngredients();
+        } else{
+            throw new Error('Ingredient is being used in some recipe!');
+        }
+    }).catch((error) => console.log(error));
+
+}
+
+
+//TODO
+// przy usuwaniu skladnika ktory jest uzywany nic się nie dzieje
+// dodanie pola isUsed do składnika
