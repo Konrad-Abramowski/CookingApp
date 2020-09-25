@@ -29,14 +29,13 @@ async function showIngredients() {
         actionDeleteButtonElement.className = "btn btn-danger mr-1";
         actionDeleteButtonElement.textContent = "Delete";
         actionDeleteButtonElement.onclick = deleteOnClick = () => deleteIngredient(dataArray[i].id);
-
-
         actionTdElement.appendChild(actionDeleteButtonElement);
 
-        let actionUpdateAElement = document.createElement("button");
-        actionUpdateAElement.className = "btn btn-success mr-1";
-        actionUpdateAElement.textContent = "Edit";
-        actionTdElement.appendChild(actionUpdateAElement);
+        let actionUpdateButtonElement = document.createElement("button");
+        actionUpdateButtonElement.className = "btn btn-success mr-1";
+        actionUpdateButtonElement.textContent = "Edit";
+        actionUpdateButtonElement.onclick = updateOnClick = () => updateIngredient(dataArray[i].id);
+        actionTdElement.appendChild(actionUpdateButtonElement);
 
         trElement.appendChild(tdElement);
         trElement.appendChild(nameTdElement);
@@ -69,11 +68,9 @@ async function deleteIngredient(id) {
         } else{
             throw new Error('Ingredient is being used in some recipe!');
         }
-    }).catch((error) => console.log(error));
-
+    }).catch((error) => {
+        console.log(error);
+        $("#errorIngredientModal").modal('show');
+    });
 }
 
-
-//TODO
-// przy usuwaniu skladnika ktory jest uzywany nic się nie dzieje
-// dodanie pola isUsed do składnika
