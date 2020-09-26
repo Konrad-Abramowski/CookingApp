@@ -12,6 +12,7 @@ async function showIngredients() {
 
     let counter = 1;
     let deleteOnClick;
+    let updateOnClick;
     for (let i in dataArray) {
         let trElement = document.createElement("tr");
 
@@ -34,7 +35,7 @@ async function showIngredients() {
         let actionUpdateButtonElement = document.createElement("button");
         actionUpdateButtonElement.className = "btn btn-success mr-1";
         actionUpdateButtonElement.textContent = "Edit";
-        actionUpdateButtonElement.onclick = updateOnClick = () => updateIngredient(dataArray[i].id);
+        actionUpdateButtonElement.onclick = updateOnClick = () => showUpdateIngredientModal(dataArray[i].id);
         actionTdElement.appendChild(actionUpdateButtonElement);
 
         trElement.appendChild(tdElement);
@@ -69,8 +70,35 @@ async function deleteIngredient(id) {
             throw new Error('Ingredient is being used in some recipe!');
         }
     }).catch((error) => {
-        console.log(error);
-        $("#errorIngredientModal").modal('show');
+        $("#errorDeleteIngredientModal").modal('show');
     });
 }
 
+async function showUpdateIngredientModal(id){
+    let updateModalOnClick;
+    $("#updateIngredientModal").modal('show');
+    document.getElementById("updateIngredient").onclick = updateModalOnClick = () => { updateIngredient(id, document.getElementById("name").value);};
+
+}
+async function updateIngredient(id, name){
+    await fetch('http://localhost:8080/ingredients/' + id, {
+        'method': 'PATCH',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify({
+            'name' : name
+        })
+    }).then((response) => {
+        if(response.ok){
+            document.getElementById("ingredientTableBody").innerHTML = "";
+            showIngredients();
+        }
+        else{
+            throw new Error('Ingredient`s name must not be empty!');
+        }
+    }).catch((error) => {
+        console.log(error);
+        $("#errorUpdateIngredientModal").modal('show');
+    });
+}

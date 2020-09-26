@@ -52,7 +52,7 @@ class IngredientController {
 
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     ResponseEntity<?> updateIngredient(@PathVariable int id, @RequestBody @Valid Ingredient toUpdate) {
         if (!ingredientRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
