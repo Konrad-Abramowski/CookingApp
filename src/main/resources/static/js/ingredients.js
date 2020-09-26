@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", showIngredients);
+document.getElementById("addIngredient").onclick = addIngredientOnClick = () => addIngredient(document.getElementById("nameAdd").value);
+
 
 async function showIngredients() {
     let result = [];
@@ -63,10 +65,10 @@ async function deleteIngredient(id) {
             'Content-Type': 'application/json'
         }
     }).then((response) => {
-        if(response.ok){
+        if (response.ok) {
             document.getElementById("ingredientTableBody").innerHTML = "";
             showIngredients();
-        } else{
+        } else {
             throw new Error('Ingredient is being used in some recipe!');
         }
     }).catch((error) => {
@@ -74,31 +76,41 @@ async function deleteIngredient(id) {
     });
 }
 
-async function showUpdateIngredientModal(id){
+async function showUpdateIngredientModal(id) {
     let updateModalOnClick;
     $("#updateIngredientModal").modal('show');
-    document.getElementById("updateIngredient").onclick = updateModalOnClick = () => { updateIngredient(id, document.getElementById("name").value);};
+    document.getElementById("updateIngredient").onclick = updateModalOnClick = () => {
+        updateIngredient(id, document.getElementById("name").value);
+    };
 
 }
-async function updateIngredient(id, name){
+
+async function updateIngredient(id, name) {
     await fetch('http://localhost:8080/ingredients/' + id, {
         'method': 'PATCH',
         'headers': {
             'Content-Type': 'application/json'
         },
         'body': JSON.stringify({
-            'name' : name
+            'name': name
         })
     }).then((response) => {
-        if(response.ok){
+        if (response.ok) {
             document.getElementById("ingredientTableBody").innerHTML = "";
             showIngredients();
         }
-        else{
-            throw new Error('Ingredient`s name must not be empty!');
-        }
-    }).catch((error) => {
-        console.log(error);
-        $("#errorUpdateIngredientModal").modal('show');
     });
+}
+
+async function addIngredient(name){
+    console.log(name);
+    await fetch('http://localhost:8080/ingredients', {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify({
+            'name': name
+        })
+    })
 }

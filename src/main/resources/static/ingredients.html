@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/ingredients.css"/>
 </head>
 <body>
-<!-- Modal HTML -->
+<!-- Error Modal HTML -->
 <div id="errorDeleteIngredientModal" class="modal fade">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
@@ -25,24 +25,6 @@
             <div class="modal-body text-center">
                 <h4>Ooops!</h4>
                 <p>Ingredient is being used in some recipe!</p>
-                <button class="btn btn-success" data-dismiss="modal">Go back</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal HTML -->
-<div id="errorUpdateIngredientModal" class="modal fade">
-    <div class="modal-dialog modal-confirm">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-center">
-                <div class="icon-box d-flex justify-content-center ">
-                    <i class="material-icons align-self-center">&times;</i>
-                </div>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body text-center">
-                <h4>Ooops!</h4>
-                <p>Ingredient`s name must not be empty!</p>
                 <button class="btn btn-success" data-dismiss="modal">Go back</button>
             </div>
         </div>
@@ -71,6 +53,30 @@
         </div>
     </div>
 </div>
+<!-- Add Modal HTML -->
+<div id="addIngredientModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Ingredient</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input id="nameAdd" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input id="addIngredient" type="submit" class="btn btn-info" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <header>
     <div class="collapse bg-dark" id="navbarHeader">
         <div class="container col-12 ">
@@ -92,17 +98,23 @@
         </div>
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="col-12 d-flex flex-row">
-            <a href="index.html" class="navbar-brand">
-                <i class="fas fa-pizza-slice m-1 "></i>
+        <div class="col-12 d-flex bd-highlight">
+            <a href="index.html" class="navbar-brand bd-highlight">
+                <i class="fas fa-pizza-slice m-1"></i>
                 <strong>CookingApp</strong>
             </a>
-            <a href="recipes.html" class="navbar-item ">Recipes</a>
-            <a href="ingredients.html" class="navbar-item navbar-ingredients">Ingredients</a>
-            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarHeader"
-                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a href="recipes.html" class="navbar-item bd-highlight">Recipes</a>
+            <a href="ingredients.html" class="navbar-item navbar-ingredients bd-highlight">Ingredients</a>
+            <div class="ml-auto bd-highlight">
+                <a href="#addIngredientModal" class="btn btn-success mr-2 bd-highlight" data-toggle="modal"><i
+                        class="material-icons"><i class="fas fa-plus-circle"></i></i>
+                    <span>Add New Ingredient</span></a>
+                <button class="navbar-toggler bd-highlight" type="button" data-toggle="collapse"
+                        data-target="#navbarHeader"
+                        aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
         </div>
     </div>
 </header>
