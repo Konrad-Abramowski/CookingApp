@@ -98,4 +98,26 @@ async function getRecipes() {
     })
     return response.json();
 }
+async function deleteRecipe(id) {
 
+    await fetch('http://localhost:8080/recipes/' + id, {
+        'method': 'DELETE',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if (response.ok) {
+            document.getElementById("recipeTableBody").innerHTML = "";
+            showRecipes();
+        } else {
+            throw new Error('Something went wrong');
+        }
+    }).catch((error) => {
+        $("#errorDeleteRecipeModal").modal('show');
+    });
+}
+
+async function viewRecipeModal(){
+    document.getElementById("viewRecipeModalBody").innerHTML = "";
+
+}
