@@ -54,8 +54,8 @@ class RecipeController {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @PostMapping(value = "/find",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<?> findRecipeWithIngredients(@RequestBody  HashMap<String,int[]> ids){
+    @PostMapping(value = "/find", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<?> findRecipeWithIngredients(@RequestBody HashMap<String, int[]> ids) {
         List<Integer> recipeIds = ingredientInRecipeRepository.findDistinctRecipeIds();
         int[] ownedIngredientIds = ids.get("ids");
         int resultRecipeIds = 0;
@@ -73,7 +73,7 @@ class RecipeController {
             result.add(ingredientInRecipeRepository.showRecipeIngredients(recipeId));
             Map<String, Object> toAdd = new HashMap<>();
             toAdd.put("MISSING_INGREDIENTS", ingredientsForRecipe.size() - resultRecipeIds);
-            toAdd.put("RECIPE_NAME",recipeRepository.findById(recipeId).get().getName());
+            toAdd.put("RECIPE_NAME", recipeRepository.findById(recipeId).get().getName());
             toAdd.put("RECIPE_PREPARATION", recipeRepository.findById(recipeId).get().getPreparation());
             result.get(counter).add(toAdd);
             resultRecipeIds = 0;
@@ -98,23 +98,6 @@ class RecipeController {
         ingredientInRecipeRepository.addIngredientToRecipe(ingredientId, recipeId, amount.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @Transactional
-    @DeleteMapping(value = "/{recipeId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<IngredientInRecipe> deleteIngredientFromRecipe(@PathVariable(value = "recipeId") final int recipeId,
-                                                                  @RequestParam int ingredientId) {
-        IngredientInRecipeKey id = new IngredientInRecipeKey(recipeId, ingredientId);
-        if (!ingredientInRecipeRepository.existsById(id)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        IngredientInRecipe ingredientInRecipe = ingredientInRecipeRepository.findIngredientInRecipeById(id);
-        int amountId = ingredientInRecipe.getAmount().getId();
-        ingredientInRecipeRepository.deleteIngredientFromRecipe(ingredientId, recipeId);
-        logger.warn("id: " + ingredientInRecipe.getAmount().getId());
-        amountRepository.deleteById(amountId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteIngredient(@PathVariable int id) {
