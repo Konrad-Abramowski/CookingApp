@@ -11,7 +11,7 @@ public class Recipe {
     private int id;
     @NotBlank(message = "Recipe`s name must be not empty!")
     private String name;
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<IngredientInRecipe> amount;
     @Column(length = 1000)
     private String preparation;
