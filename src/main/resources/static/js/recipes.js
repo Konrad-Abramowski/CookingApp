@@ -11,6 +11,8 @@ async function showRecipes() {
     }
 
     let counter = 1;
+    let deleteOnClick;
+    let viewOnClick;
     for (let i in dataArray) {
         let trElement = document.createElement("tr");
 
@@ -27,31 +29,45 @@ async function showRecipes() {
         let descriptionTdText = document.createTextNode(dataArray[i].preparation);
         descriptionTdElement.appendChild(descriptionTdText);
 
+        let ingredientsTdElement = document.createElement("td");
+
+        let ingredientsUlElement = document.createElement("ul");
+        ingredientsUlElement.className = "list-group ingredients-ul";
+
         let recipe = [];
         recipe = await getRecipe(dataArray[i].id);
-        console.log(recipe);
-        for (let j in recipe){
-            recipe[j].INGREDIENT_NAME
+        for (let j in recipe) {
+            let ingredientsLiElement = document.createElement("li");
+            ingredientsLiElement.className = "list-group-item d-flex justify-content-between align-items-center";
+            ingredientsLiElement.textContent = recipe[j].INGREDIENT_NAME;
+            let ingredientSpanElement = document.createElement("span");
+            ingredientSpanElement.className = "badge badge-primary badge-pill";
+            ingredientSpanElement.textContent = recipe[j].NUMBER + recipe[j].UNIT;
+            ingredientsLiElement.appendChild(ingredientSpanElement);
+            ingredientsUlElement.appendChild(ingredientsLiElement);
         }
+        ingredientsTdElement.appendChild(ingredientsUlElement);
 
-        let ingredientsTdElement = document.createElement("td");
 
         let actionTdElement = document.createElement("td");
 
-        let actionDeleteAElement = document.createElement("a");
-        actionDeleteAElement.className = "badge badge-danger p-2 mr-1";
-        actionDeleteAElement.text = "Delete";
-        actionTdElement.appendChild(actionDeleteAElement);
+        let actionDeleteButtonElement = document.createElement("button");
+        actionDeleteButtonElement.className = "btn btn-danger mr-1";
+        actionDeleteButtonElement.textContent = "Delete";
+        actionDeleteButtonElement.onclick = deleteOnClick = () => deleteRecipe(dataArray[i].id);
+        actionTdElement.appendChild(actionDeleteButtonElement);
 
-        let actionPElement = document.createElement("p");
-        actionPElement.textContent = "|";
-        actionPElement.className = "d-inline font-weight-bold";
-        actionTdElement.appendChild(actionPElement);
+        let actionUpdateButtonElement = document.createElement("button");
+        actionUpdateButtonElement.className = "btn btn-success mr-1";
+        actionUpdateButtonElement.textContent = "Edit";
+        actionTdElement.appendChild(actionUpdateButtonElement);
 
-        let actionUpdateAElement = document.createElement("a");
-        actionUpdateAElement.className = "badge badge-success p-2 ml-1";
-        actionUpdateAElement.text = "Edit";
-        actionTdElement.appendChild(actionUpdateAElement);
+        let actionViewButtonElement = document.createElement("button");
+        actionViewButtonElement.className = "btn btn-primary mr-1";
+        actionViewButtonElement.textContent = "View";
+        actionViewButtonElement.onclick = viewOnClick = () => $("#viewRecipeModal").modal('show');
+
+        actionTdElement.appendChild(actionViewButtonElement);
 
 
         trElement.appendChild(tdElement);
