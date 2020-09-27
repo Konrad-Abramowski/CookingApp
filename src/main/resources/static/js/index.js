@@ -80,10 +80,6 @@ async function showAvailableRecipes() {
         let tbodyElement = document.createElement("tbody");
 
         for (let j in recipes[i]) {
-
-        }
-
-        for (let j in recipes[i]) {
             if (j != recipes[i].length - 1) {
                 let trElement = document.createElement("tr");
 
