@@ -10,6 +10,41 @@
     <script src="https://kit.fontawesome.com/480cfc8d95.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/recipes.css"/>
 </head>
+<body>
+<!-- View Modal HTML -->
+<div id="viewRecipeModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="viewRecipeModalBody">
+
+                </div>
+                <button class="btn btn-success" data-dismiss="modal">Go back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Error Modal HTML -->
+<div id="errorDeleteRecipeModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <div class="icon-box d-flex justify-content-center ">
+                    <i class="material-icons align-self-center">&times;</i>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Ooops!</h4>
+                <p>Something went wrong</p>
+                <button class="btn btn-success" data-dismiss="modal">Go back</button>
+            </div>
+        </div>
+    </div>
+</div>
 <header>
     <div class="collapse bg-dark" id="navbarHeader">
         <div class="container col-12 ">
@@ -31,17 +66,23 @@
         </div>
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="col-12 d-flex flex-row">
-            <a href="index.html" class="navbar-brand">
-                <i class="fas fa-pizza-slice m-1 "></i>
+        <div class="col-12 d-flex bd-highlight">
+            <a href="index.html" class="navbar-brand bd-highlight">
+                <i class="fas fa-pizza-slice m-1"></i>
                 <strong>CookingApp</strong>
             </a>
-            <a href="recipes.html.html" class="navbar-item navbar-recipes">Recipes</a>
-            <a href="ingredients.html" class="navbar-item">Ingredients</a>
-            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarHeader"
-                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a href="recipes.html" class="navbar-item navbar-recipes bd-highlight">Recipes</a>
+            <a href="ingredients.html" class="navbar-item bd-highlight">Ingredients</a>
+            <div class="ml-auto d-flex bd-highlight">
+                <a href="#addRecipeModal" class="btn btn-success mr-2 bd-highlight" data-toggle="modal"><i
+                        class="material-icons"><i class="fas fa-plus-circle"></i></i>
+                    <span>Add New Recipe</span></a>
+                <button class="navbar-toggler bd-highlight" type="button" data-toggle="collapse"
+                        data-target="#navbarHeader"
+                        aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
         </div>
     </div>
 </header>
