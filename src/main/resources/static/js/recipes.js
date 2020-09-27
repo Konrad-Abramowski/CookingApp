@@ -12,8 +12,8 @@ async function showRecipes() {
 
     let counter = 1;
     let deleteOnClick;
-    let viewOnClick;
     for (let i in dataArray) {
+        console.log(dataArray);
         let trElement = document.createElement("tr");
 
         let tdElement = document.createElement("td");
@@ -42,7 +42,7 @@ async function showRecipes() {
             ingredientsLiElement.textContent = recipe[j].INGREDIENT_NAME;
             let ingredientSpanElement = document.createElement("span");
             ingredientSpanElement.className = "badge badge-primary badge-pill";
-            ingredientSpanElement.textContent = recipe[j].NUMBER + recipe[j].UNIT;
+            ingredientSpanElement.textContent = recipe[j].NUMBER + " " + recipe[j].UNIT;
             ingredientsLiElement.appendChild(ingredientSpanElement);
             ingredientsUlElement.appendChild(ingredientsLiElement);
         }
@@ -65,7 +65,88 @@ async function showRecipes() {
         let actionViewButtonElement = document.createElement("button");
         actionViewButtonElement.className = "btn btn-primary mr-1";
         actionViewButtonElement.textContent = "View";
-        actionViewButtonElement.onclick = viewOnClick = () => $("#viewRecipeModal").modal('show');
+        actionViewButtonElement.onclick = viewOnClick = async () => {
+            document.getElementById("viewRecipeModalName").textContent = dataArray[i].name;
+            document.getElementById("viewRecipeModalBody").innerHTML = "";
+
+            const recipe = await getRecipe(dataArray[i].id);
+
+            let divElement = document.createElement("div");
+
+            let tableElement = document.createElement("table");
+            tableElement.className = "table";
+
+            let theadElement = document.createElement("thead");
+
+            let theadTrElement = document.createElement("tr");
+
+            let theadIngredientThElement = document.createElement("th");
+            let theadIngredientThText = document.createTextNode("Ingredient");
+            theadIngredientThElement.scope = "col";
+            theadIngredientThElement.appendChild(theadIngredientThText);
+
+            let theadAmountThElement = document.createElement("th");
+            let theadAmountThText = document.createTextNode("Amount");
+            theadAmountThElement.scope = "col";
+            theadAmountThElement.appendChild(theadAmountThText);
+
+            let theadUnitThElement = document.createElement("th");
+            let theadUnitThEText = document.createTextNode("Unit");
+            theadUnitThElement.scope = "col";
+            theadUnitThElement.appendChild(theadUnitThEText);
+
+            let tbodyElement = document.createElement("tbody");
+
+            for (let i in recipe) {
+                    let trElement = document.createElement("tr");
+
+                    let ingredientTdElement = document.createElement("td");
+                    let ingredientTdText = document.createTextNode(recipe[i].INGREDIENT_NAME);
+                    ingredientTdElement.appendChild(ingredientTdText);
+
+                    let amountTdElement = document.createElement("td");
+                    let amountTdText = document.createTextNode(recipe[i].NUMBER);
+                    amountTdElement.appendChild(amountTdText);
+
+                    let unitTdElement = document.createElement("td");
+                    let unitTdText = document.createTextNode(recipe[i].UNIT);
+                    unitTdElement.appendChild(unitTdText);
+
+                    trElement.appendChild(ingredientTdElement);
+                    trElement.appendChild(amountTdElement);
+                    trElement.appendChild(unitTdElement);
+                    tbodyElement.appendChild(trElement);
+
+            }
+
+            let descriptionH5Element = document.createElement("h5");
+            descriptionH5Element.className = "font-weight-bold";
+            let descriptionH5Text = document.createTextNode("Description");
+            descriptionH5Element.appendChild(descriptionH5Text);
+
+
+            let descriptionPElement = document.createElement("p");
+            descriptionPElement.className = "card-text";
+            let pText = document.createTextNode(recipe[0].RECIPE_PREPARATION);
+            descriptionPElement.appendChild(pText);
+
+            let descriptionDivElement = document.createElement("div");
+            descriptionDivElement.className = "text-left";
+
+            theadTrElement.appendChild(theadIngredientThElement);
+            theadTrElement.appendChild(theadAmountThElement);
+            theadTrElement.appendChild(theadUnitThElement);
+            theadElement.appendChild(theadTrElement);
+            tableElement.appendChild(theadElement);
+            tableElement.appendChild(tbodyElement);
+            divElement.appendChild(tableElement);
+            descriptionDivElement.appendChild(descriptionH5Element);
+            descriptionDivElement.appendChild(descriptionPElement);
+            divElement.appendChild(descriptionDivElement);
+            document.getElementById("viewRecipeModalBody").appendChild(divElement);
+
+            $("#viewRecipeModal").modal('show');
+        }
 
         actionTdElement.appendChild(actionViewButtonElement);
 
@@ -98,6 +179,7 @@ async function getRecipes() {
     })
     return response.json();
 }
+
 async function deleteRecipe(id) {
 
     await fetch('http://localhost:8080/recipes/' + id, {
@@ -115,9 +197,4 @@ async function deleteRecipe(id) {
     }).catch((error) => {
         $("#errorDeleteRecipeModal").modal('show');
     });
-}
-
-async function viewRecipeModal(){
-    document.getElementById("viewRecipeModalBody").innerHTML = "";
-
 }
