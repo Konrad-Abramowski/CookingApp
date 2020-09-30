@@ -5,7 +5,7 @@ public enum Unit {
     DAG("dag"),
     KG("kg"),
     ML("ml"),
-    l("l");
+    L("l");
 
     public String amountType;
 

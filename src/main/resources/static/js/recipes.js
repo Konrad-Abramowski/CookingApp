@@ -1,5 +1,162 @@
 document.addEventListener("DOMContentLoaded", showRecipes);
 
+document.getElementById("addRecipeSaveButton").onclick = addRecipeOnClick = async () => {
+
+    await fetch('http://localhost:8080/recipes', {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify({
+            'name': document.getElementById("addRecipeName").value,
+            'preparation': document.getElementById("addRecipeDescription").value
+        })
+    }).then(async () => {
+        const checkedIngredients = {
+            ids: Array.prototype.slice
+                .call(document.querySelectorAll('input:checked[type="checkbox"]')).map((ingredient) => ingredient.id)
+        }
+
+        for (let i in checkedIngredients.ids) {
+            let unit = document.getElementById(i + "unit");
+            let number = document.getElementById(i + "number");
+
+            await fetch('http://localhost:8080/recipes/9?unit=' + unit + '&number=' + number + '&ingredientId=' + i, {
+                'method': 'POST',
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+    });
+
+};
+
+$('#addRecipeModal').on('shown.bs.modal', async function () {
+    document.getElementById("ingredientList").innerHTML = "";
+
+    let divElement = document.createElement("div");
+
+    let tableElement = document.createElement("table");
+    tableElement.className = "table";
+
+    let theadElement = document.createElement("thead");
+
+    let theadTrElement = document.createElement("tr");
+
+    let theadIngredientThElement = document.createElement("th");
+    let theadIngredientThText = document.createTextNode("Ingredient");
+    theadIngredientThElement.scope = "col";
+    theadIngredientThElement.appendChild(theadIngredientThText);
+
+    let theadAmountThElement = document.createElement("th");
+    let theadAmountThText = document.createTextNode("Unit");
+    theadAmountThElement.scope = "col";
+    theadAmountThElement.appendChild(theadAmountThText);
+
+    let theadUnitThElement = document.createElement("th");
+    let theadUnitThEText = document.createTextNode("Number");
+    theadUnitThElement.scope = "col";
+    theadUnitThElement.appendChild(theadUnitThEText);
+
+    let tbodyElement = document.createElement("tbody");
+    tbodyElement.id = "addIngredientsTBody";
+
+    theadTrElement.appendChild(theadIngredientThElement);
+    theadTrElement.appendChild(theadAmountThElement);
+    theadTrElement.appendChild(theadUnitThElement);
+    theadElement.appendChild(theadTrElement);
+    tableElement.appendChild(theadElement);
+    divElement.appendChild(tableElement);
+
+    document.getElementById("ingredientList").appendChild(divElement);
+
+    const ingredients = await getIngredients();
+
+    for (let i in ingredients) {
+
+        let trElement = document.createElement("tr");
+
+        let ingredientTdElement = document.createElement("td");
+        let ingredientListLabelElement = document.createElement("label");
+        ingredientListLabelElement.htmlFor = ingredients[i].id;
+        ingredientListLabelElement.className = "mr-2";
+        ingredientListLabelElement.textContent = ingredients[i].name;
+
+        let ingredientListInputElement = document.createElement("input");
+        ingredientListInputElement.type = "checkbox";
+        ingredientListInputElement.id = ingredients[i].id;
+        ingredientListInputElement.className = "custom-checkbox";
+        ingredientTdElement.appendChild(ingredientListLabelElement);
+        ingredientTdElement.appendChild(ingredientListInputElement);
+
+        let amountTdElement = document.createElement("td");
+        amountTdElement.style.width = "6rem";
+        let ingredientListSelectElement = document.createElement("select");
+        ingredientListSelectElement.className = "browser-default custom-select mx-1";
+        ingredientListSelectElement.id = ingredients[i].id + "unit";
+
+        let unitOption = document.createElement("option");
+        unitOption.selected = "";
+        unitOption.text = "Unit";
+
+        let unitOptionG = document.createElement("option");
+        unitOptionG.text = "G";
+        unitOptionG.value = "G";
+
+        let unitOptionDAG = document.createElement("option");
+        unitOptionDAG.text = "DAG";
+        unitOptionDAG.value = "DAG";
+
+        let unitOptionKG = document.createElement("option");
+        unitOptionKG.text = "KG";
+        unitOptionKG.value = "KG";
+
+        let unitOptionML = document.createElement("option");
+        unitOptionML.text = "ML";
+        unitOptionML.value = "ML";
+
+        let unitOptionL = document.createElement("option");
+        unitOptionL.text = "L";
+        unitOptionL.value = "L";
+
+
+        ingredientListSelectElement.appendChild(unitOption);
+        ingredientListSelectElement.appendChild(unitOptionG);
+        ingredientListSelectElement.appendChild(unitOptionDAG);
+        ingredientListSelectElement.appendChild(unitOptionKG);
+        ingredientListSelectElement.appendChild(unitOptionML);
+        ingredientListSelectElement.appendChild(unitOptionL);
+        amountTdElement.appendChild(ingredientListSelectElement);
+
+        let unitTdElement = document.createElement("td");
+        let ingredientListNumberInputElement = document.createElement("input");
+        ingredientListNumberInputElement.type = "text";
+        unitTdElement.style.width = "8rem";
+        ingredientListNumberInputElement.placeholder = "Number";
+        ingredientListNumberInputElement.className = "form-control"
+        ingredientListNumberInputElement.id = ingredients[i].id + "number";
+        unitTdElement.appendChild(ingredientListNumberInputElement);
+
+        trElement.appendChild(ingredientTdElement);
+        trElement.appendChild(amountTdElement);
+        trElement.appendChild(unitTdElement);
+        tbodyElement.appendChild(trElement);
+    }
+    tableElement.appendChild(tbodyElement);
+
+});
+
+async function getIngredients() {
+    const response = await fetch('http://localhost:8080/ingredients', {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    })
+    return response.json();
+}
+
 async function showRecipes() {
     let result = [];
 
@@ -12,6 +169,7 @@ async function showRecipes() {
 
     let counter = 1;
     let deleteOnClick;
+    let editOnClick;
     for (let i in dataArray) {
         console.log(dataArray);
         let trElement = document.createElement("tr");
@@ -26,6 +184,7 @@ async function showRecipes() {
 
 
         let descriptionTdElement = document.createElement("td");
+        descriptionTdElement.className = "overflow-auto";
         let descriptionTdText = document.createTextNode(dataArray[i].preparation);
         descriptionTdElement.appendChild(descriptionTdText);
 
@@ -60,6 +219,7 @@ async function showRecipes() {
         let actionUpdateButtonElement = document.createElement("button");
         actionUpdateButtonElement.className = "btn btn-success mr-1";
         actionUpdateButtonElement.textContent = "Edit";
+        actionUpdateButtonElement.onclick = editOnClick = () => showUpdateRecipeModal(dataArray[i].id);
         actionTdElement.appendChild(actionUpdateButtonElement);
 
         let actionViewButtonElement = document.createElement("button");
@@ -98,25 +258,24 @@ async function showRecipes() {
             let tbodyElement = document.createElement("tbody");
 
             for (let i in recipe) {
-                    let trElement = document.createElement("tr");
+                let trElement = document.createElement("tr");
 
-                    let ingredientTdElement = document.createElement("td");
-                    let ingredientTdText = document.createTextNode(recipe[i].INGREDIENT_NAME);
-                    ingredientTdElement.appendChild(ingredientTdText);
+                let ingredientTdElement = document.createElement("td");
+                let ingredientTdText = document.createTextNode(recipe[i].INGREDIENT_NAME);
+                ingredientTdElement.appendChild(ingredientTdText);
 
-                    let amountTdElement = document.createElement("td");
-                    let amountTdText = document.createTextNode(recipe[i].NUMBER);
-                    amountTdElement.appendChild(amountTdText);
+                let amountTdElement = document.createElement("td");
+                let amountTdText = document.createTextNode(recipe[i].NUMBER);
+                amountTdElement.appendChild(amountTdText);
 
-                    let unitTdElement = document.createElement("td");
-                    let unitTdText = document.createTextNode(recipe[i].UNIT);
-                    unitTdElement.appendChild(unitTdText);
+                let unitTdElement = document.createElement("td");
+                let unitTdText = document.createTextNode(recipe[i].UNIT);
+                unitTdElement.appendChild(unitTdText);
 
-                    trElement.appendChild(ingredientTdElement);
-                    trElement.appendChild(amountTdElement);
-                    trElement.appendChild(unitTdElement);
-                    tbodyElement.appendChild(trElement);
-
+                trElement.appendChild(ingredientTdElement);
+                trElement.appendChild(amountTdElement);
+                trElement.appendChild(unitTdElement);
+                tbodyElement.appendChild(trElement);
             }
 
             let descriptionH5Element = document.createElement("h5");
@@ -196,5 +355,31 @@ async function deleteRecipe(id) {
         }
     }).catch((error) => {
         $("#errorDeleteRecipeModal").modal('show');
+    });
+}
+
+async function showUpdateRecipeModal(id) {
+    let updateModalOnClick;
+    $("#updateRecipeModal").modal('show');
+    // document.getElementById("updateIngredient").onclick = updateModalOnClick = () => {
+    //     updateIngredient(id, document.getElementById("name").value);
+    // };
+
+}
+
+async function updateRecipe(id, name) {
+    await fetch('http://localhost:8080/ingredients/' + id, {
+        'method': 'PATCH',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify({
+            'name': name
+        })
+    }).then((response) => {
+        if (response.ok) {
+            document.getElementById("ingredientTableBody").innerHTML = "";
+            showIngredients();
+        }
     });
 }

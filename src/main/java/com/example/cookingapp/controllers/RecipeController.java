@@ -83,7 +83,7 @@ class RecipeController {
     }
 
     @Transactional
-    @PostMapping(value = "/{recipeId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{recipeId}")
     ResponseEntity<IngredientInRecipe> addIngredientToRecipe(@PathVariable(value = "recipeId") final int recipeId,
                                                              @RequestParam int ingredientId,
                                                              @RequestParam String unit,
@@ -100,7 +100,7 @@ class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteIngredient(@PathVariable int id) {
+    ResponseEntity<?> deleteRecipe(@PathVariable int id) {
         if (recipeRepository.existsById(id)) {
             recipeRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
