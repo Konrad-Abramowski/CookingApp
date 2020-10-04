@@ -37,100 +37,108 @@ async function postIngredients() {
 }
 
 async function showAvailableRecipes() {
-    document.getElementById("recipeList").innerHTML = "";
-    let recipes = [];
-    recipes = await postIngredients();
-    console.log(recipes);
-    recipes.sort(compareMISSING_INGREDIENTS);
-    console.log(recipes);
-    for (let i in recipes) {
-        let divElement = document.createElement("div");
-        divElement.className = "col-sm-4";
-
-        let innerDivElement = document.createElement("div");
-        innerDivElement.className = "card overflow-auto p-2 m-2";
-
-        let h4Element = document.createElement("h4");
-        h4Element.className = "card-title text-center font-weight-bold";
-        let h4Text = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_NAME);
-        h4Element.appendChild(h4Text);
-
-        let tableElement = document.createElement("table");
-        tableElement.className = "table";
-
-        let theadElement = document.createElement("thead");
-
-        let theadTrElement = document.createElement("tr");
-
-        let theadIngredientThElement = document.createElement("th");
-        let theadIngredientThText = document.createTextNode("Ingredient");
-        theadIngredientThElement.scope = "col";
-        theadIngredientThElement.appendChild(theadIngredientThText);
-
-        let theadAmountThElement = document.createElement("th");
-        let theadAmountThText = document.createTextNode("Amount");
-        theadAmountThElement.scope = "col";
-        theadAmountThElement.appendChild(theadAmountThText);
-
-        let theadUnitThElement = document.createElement("th");
-        let theadUnitThEText = document.createTextNode("Unit");
-        theadUnitThElement.scope = "col";
-        theadUnitThElement.appendChild(theadUnitThEText);
-
-        let tbodyElement = document.createElement("tbody");
-
-        for (let j in recipes[i]) {
-            if (j != recipes[i].length - 1) {
-                let trElement = document.createElement("tr");
-
-                let ingredientTdElement = document.createElement("td");
-                let ingredientTdText = document.createTextNode(recipes[i][j].INGREDIENT_NAME);
-                ingredientTdElement.appendChild(ingredientTdText);
-
-                let amountTdElement = document.createElement("td");
-                let amountTdText = document.createTextNode(recipes[i][j].NUMBER);
-                amountTdElement.appendChild(amountTdText);
-
-                let unitTdElement = document.createElement("td");
-                let unitTdText = document.createTextNode(recipes[i][j].UNIT);
-                unitTdElement.appendChild(unitTdText);
-
-                trElement.appendChild(ingredientTdElement);
-                trElement.appendChild(amountTdElement);
-                trElement.appendChild(unitTdElement);
-                tbodyElement.appendChild(trElement);
-            }
+    const root = document.getElementById('recipeList')
+    const recipes = (await postIngredients()).sort(compareMISSING_INGREDIENTS)
+    const orderKeyEnum = (key) => {
+        switch (key.toLowerCase()) {
+            case 'ingredient':
+                return 'ingredient_name'
+            case 'amount':
+                return 'number'
+            case 'unit':
+                return 'unit'
+            default:
+                throw Error('Bad order key')
         }
-        let descriptionH5Element = document.createElement("h5");
-        descriptionH5Element.className = "font-weight-bold";
-        let descriptionH5Text = document.createTextNode("Description");
-        descriptionH5Element.appendChild(descriptionH5Text);
+    }
 
+    /* Clear previous recipes */
+    while (root.firstChild) {
+        root.firstChild.remove()
+    }
 
-        let descriptionPElement = document.createElement("p");
-        descriptionPElement.className = "card-text";
-        let pText = document.createTextNode(recipes[i][recipes[i].length - 1].RECIPE_PREPARATION);
-        descriptionPElement.appendChild(pText);
+    /* Build new recipes */
+    for (const recipeData of recipes) {
+        /* Parse response data */
+        const dataOrderKeys = ['Ingredient', 'Amount', 'Unit']
+        const mealData = recipeData[recipeData.length - 1]
+        const ingredients = [...recipeData]
+        ingredients.pop()
 
-        let missingIngredientsH5Element = document.createElement("h5");
-        missingIngredientsH5Element.className = "font-weight-bold";
-        let missingIngredientsH5Text = document.createTextNode("Missing ingredients: " + recipes[i][recipes[i].length - 1].MISSING_INGREDIENTS);
-        missingIngredientsH5Element.appendChild(missingIngredientsH5Text);
+        /* Container */
+        const recipeContainer = document.createElement('div')
+        recipeContainer.className = 'col-sm-4'
 
-        innerDivElement.appendChild(h4Element);
-        theadTrElement.appendChild(theadIngredientThElement);
-        theadTrElement.appendChild(theadAmountThElement);
-        theadTrElement.appendChild(theadUnitThElement);
-        theadElement.appendChild(theadTrElement);
-        tableElement.appendChild(theadElement);
-        tableElement.appendChild(tbodyElement);
-        innerDivElement.appendChild(tableElement);
-        innerDivElement.appendChild(descriptionH5Element);
-        innerDivElement.appendChild(descriptionPElement);
-        innerDivElement.appendChild(missingIngredientsH5Element);
-        divElement.appendChild(innerDivElement);
+        /* Card */
+        const recipeCard = document.createElement('div')
+        recipeCard.className = 'card overflow-auto p-2 m-1'
 
-        document.getElementById("recipeList").appendChild(divElement);
+        /* Heading */
+        const headingElement = document.createElement('h4')
+        headingElement.className = 'card-title text-center font-weight-bold'
+        headingElement.textContent = mealData.RECIPE_NAME
+        recipeCard.appendChild(headingElement)
+
+        /* Ingredients table */
+        const tableElement = document.createElement('table')
+        tableElement.className = 'table'
+        recipeCard.appendChild(tableElement)
+
+        /* Table head */
+        const theadElement = document.createElement('thead')
+        const theadTrElement = document.createElement('tr')
+
+        tableElement.appendChild(theadElement)
+        theadElement.appendChild(theadTrElement)
+
+        /* Titles */
+        for (const headingText of dataOrderKeys) {
+            const theadIngredientThElement = document.createElement('th')
+
+            theadIngredientThElement.scope = 'col'
+            theadIngredientThElement.textContent = headingText
+
+            theadTrElement.appendChild(theadIngredientThElement)
+        }
+
+        /* Table body */
+        const tbodyElement = document.createElement('tbody')
+        tableElement.appendChild(tbodyElement)
+
+        /* Build ingredients */
+        for (const ingredient of ingredients) {
+            const ingredientRow = document.createElement('tr')
+            for (const value of dataOrderKeys) {
+                const tableDataElement = document.createElement('td')
+                tableDataElement.textContent = String(ingredient[orderKeyEnum(value).toUpperCase()])
+                ingredientRow.appendChild(tableDataElement)
+            }
+            tbodyElement.appendChild(ingredientRow)
+        }
+
+        /* Additional content */
+        const additionalContentConfig = [{
+            tag: 'h5',
+            className: 'font-weight-bold',
+            content: 'Description'
+        }, {
+            tag: 'p',
+            className: 'card-text',
+            content: mealData.RECIPE_PREPARATION
+        }, {
+            tag: 'h5',
+            className: 'font-weight-bold',
+            content: mealData.MISSING_INGREDIENTS
+        }]
+        for (const config of additionalContentConfig) {
+            const additionalElement = document.createElement(config.tag)
+            additionalElement.className = config.className
+            additionalElement.textContent = config.content
+            recipeCard.appendChild(additionalElement)
+            recipeContainer.appendChild(recipeCard)
+        }
+
+        root.appendChild(recipeContainer)
     }
 }
 
