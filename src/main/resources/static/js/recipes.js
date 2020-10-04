@@ -1,35 +1,43 @@
 document.addEventListener("DOMContentLoaded", showRecipes);
 
 document.getElementById("addRecipeSaveButton").onclick = addRecipeOnClick = async () => {
-
     await fetch('http://localhost:8080/recipes', {
         'method': 'POST',
         'headers': {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': '*'
         },
         'body': JSON.stringify({
-            'name': document.getElementById("addRecipeName").value,
-            'preparation': document.getElementById("addRecipeDescription").value
+            "name": document.getElementById("addRecipeName").value,
+            "preparation": document.getElementById("addRecipeDescription").value
         })
-    }).then(async () => {
-        const checkedIngredients = {
-            ids: Array.prototype.slice
-                .call(document.querySelectorAll('input:checked[type="checkbox"]')).map((ingredient) => ingredient.id)
-        }
+    })
+        .then(response => response.json())
+        .then((data) => {
+            let id = data.id;
+            const checkedIngredients = {
+                ids: Array.prototype.slice
+                    .call(document.querySelectorAll('input:checked[type="checkbox"]')).map((ingredient) => ingredient.id)
+            }
 
-        for (let i in checkedIngredients.ids) {
-            let unit = document.getElementById(i + "unit");
-            let number = document.getElementById(i + "number");
+            console.log(checkedIngredients.ids)
 
-            await fetch('http://localhost:8080/recipes/9?unit=' + unit + '&number=' + number + '&ingredientId=' + i, {
-                'method': 'POST',
-                'headers': {
-                    'Content-Type': 'application/json'
-                }
-            })
-        }
-    });
+            for (let i of checkedIngredients.ids) {
+                console.log(i)
+                const select = document.getElementById(i + "unit")
+                let unit = select.options[select.selectedIndex].value
+                console.log(unit)
+                let number = document.getElementById(i + "number").value;
 
+                fetch('http://localhost:8080/recipes/' + id + '?unit=' + unit + '&number=' + number + '&ingredientId=' + i, {
+                    'method': 'POST',
+                    'headers': {
+                        'Content-Type': 'application/json'
+                    }
+                })
+            }
+        });
+    location.reload()
 };
 
 $('#addRecipeModal').on('shown.bs.modal', async function () {
