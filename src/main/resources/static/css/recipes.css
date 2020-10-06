@@ -105,6 +105,11 @@ main {
     overflow: auto;
 }
 
+#updateIngredientList{
+    max-height: 20rem;
+    overflow: auto;
+}
+
 .trigger-btn {
     display: inline-block;
     margin: 100px auto;
