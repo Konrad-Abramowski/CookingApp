@@ -128,7 +128,7 @@ async function showAvailableRecipes() {
         }, {
             tag: 'h5',
             className: 'font-weight-bold',
-            content: mealData.MISSING_INGREDIENTS
+            content: 'MISSING INGREDIENTS: '+ mealData.MISSING_INGREDIENTS
         }]
         for (const config of additionalContentConfig) {
             const additionalElement = document.createElement(config.tag)
