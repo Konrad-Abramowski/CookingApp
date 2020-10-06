@@ -45,6 +45,14 @@ public interface IngredientInRecipeRepository extends JpaRepository<IngredientIn
             " where IIR.RECIPE_ID = :recipe_id")
     List<Map<String, Object>> showRecipeIngredients(@Param("recipe_id") int recipe_id);
 
+    @Query(nativeQuery = true, value = "select  I.NAME as ingredient_name, I.ID, A.NUMBER, A.UNIT\n" +
+            " from INGREDIENT_IN_RECIPE as IIR\n" +
+            "         inner join AMOUNT as A on A.ID = IIR.AMOUNT_ID\n" +
+            "         inner join RECIPE as R on R.ID = IIR.RECIPE_ID\n" +
+            "         inner join INGREDIENT as I on I.ID = IIR.INGREDIENT_ID\n" +
+            " where IIR.RECIPE_ID = :recipe_id")
+    List<Map<String, Object>> showRecipeIngredientsExtended(@Param("recipe_id") int recipe_id);
+
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "delete from INGREDIENT_IN_RECIPE\n" +
