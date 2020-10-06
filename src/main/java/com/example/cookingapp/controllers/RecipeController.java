@@ -6,12 +6,16 @@ import com.example.cookingapp.repositories.IngredientInRecipeRepository;
 import com.example.cookingapp.repositories.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -107,5 +111,40 @@ class RecipeController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<?> updateRecipe(@PathVariable int id, @RequestBody String json) throws JSONException {
+        logger.warn(json);
+        JSONObject jsonObject = new JSONObject(json);
+        String nameToUpdate = jsonObject.getJSONObject("recipe_info").getString("name");
+        String preparationToUpdate = jsonObject.getJSONObject("recipe_info").getString("preparation");
+        logger.warn(json);
+        JSONArray ingredients = jsonObject.getJSONArray("ingredients");
+        logger.warn(ingredients.toString());
+        logger.warn(ingredients.getJSONObject(0).getString("id"));
+        if (!recipeRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        recipeRepository.findById(id)
+                .ifPresent(recipe -> {
+                    recipe.setName(nameToUpdate);
+                    recipe.setPreparation(preparationToUpdate);
+                    recipeRepository.save(recipe);
+                });
+        var currentIngredients = ingredientInRecipeRepository.showRecipeIngredientsExtended(id);
+        currentIngredients.forEach((ingredient) -> {
+            ingredientInRecipeRepository.deleteIngredientFromRecipe((Integer) ingredient.get("ID"), id);
+        });
+
+        for (int i = 0; i < ingredients.length(); i++) {
+            Amount amount = new Amount();
+            amount.setUnit(Unit.valueOf(ingredients.getJSONObject(i).getString("unit")));
+            amount.setNumber(Integer.parseInt(ingredients.getJSONObject(i).getString("number")));
+            amountRepository.save(amount);
+            int ingredientId = Integer.parseInt(ingredients.getJSONObject(i).getString("id"));
+            ingredientInRecipeRepository.addIngredientToRecipe(ingredientId, id, amount.getId());
+        }
+        return ResponseEntity.ok(recipeRepository.findById(id));
     }
 }
