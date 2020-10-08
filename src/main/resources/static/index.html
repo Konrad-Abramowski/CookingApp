@@ -47,7 +47,7 @@
         </div>
     </div>
 </header>
-<div id="myCarousel" class="carousel slide mb-4" data-ride="carousel">
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -106,15 +106,15 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<main class="justify-content-start mx-4 mb-3">
+<main class="justify-content-start bg-light px-4 py-3">
     <div class="py-1 text-center">
         <h2>What's in your fridge?</h2>
         <p class="lead">Select ingredients you already have in the kitchen and press "Find recipes!" button.</p>
     </div>
     <div>
-            <form id="ingredientsForm">
+            <form class="row" id="ingredientsForm">
             </form>
-            <button onclick="showAvailableRecipes()">Find recipes!</button>
+            <button  class="btn btn-dark btn-block mb-2" onclick="showAvailableRecipes()">Find recipes!</button>
     </div>
     <div>
         <div class="row" id="recipeList">

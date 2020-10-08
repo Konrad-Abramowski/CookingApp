@@ -7,12 +7,14 @@ fetch('http://localhost:8080/ingredients')
         }
         for (let i in dataArray) {
             let divElement = document.createElement("div");
+            divElement.className = "col-4";
             let inputElement = document.createElement("input");
             inputElement.type = "checkbox";
             inputElement.class = "custom-checkbox";
             inputElement.id = dataArray[i].id;
             let labelElement = document.createElement("label");
             let labelText = document.createTextNode(dataArray[i].name);
+            labelElement.htmlFor = dataArray[i].id;
             labelElement.appendChild(labelText);
             divElement.appendChild(inputElement);
             divElement.appendChild(labelElement);
