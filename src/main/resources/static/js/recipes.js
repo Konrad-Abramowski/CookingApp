@@ -43,6 +43,12 @@ document.getElementById("addRecipeSaveButton").onclick = addRecipeOnClick = asyn
 $('#addRecipeModal').on('shown.bs.modal', async function () {
     document.getElementById("ingredientList").innerHTML = "";
 
+    await addRecipeModal("ingredientList");
+
+});
+
+async function addRecipeModal(listElement) {
+
     let divElement = document.createElement("div");
 
     let tableElement = document.createElement("table");
@@ -77,7 +83,7 @@ $('#addRecipeModal').on('shown.bs.modal', async function () {
     tableElement.appendChild(theadElement);
     divElement.appendChild(tableElement);
 
-    document.getElementById("ingredientList").appendChild(divElement);
+    document.getElementById(listElement).appendChild(divElement);
 
     const ingredients = await getIngredients();
 
@@ -152,8 +158,7 @@ $('#addRecipeModal').on('shown.bs.modal', async function () {
         tbodyElement.appendChild(trElement);
     }
     tableElement.appendChild(tbodyElement);
-
-});
+}
 
 async function getIngredients() {
     const response = await fetch('http://localhost:8080/ingredients', {
@@ -166,7 +171,7 @@ async function getIngredients() {
 }
 
 async function showRecipes() {
-    let result = [];
+    let result;
 
     result = await getRecipes();
 
@@ -214,7 +219,6 @@ async function showRecipes() {
             ingredientsUlElement.appendChild(ingredientsLiElement);
         }
         ingredientsTdElement.appendChild(ingredientsUlElement);
-
 
         let actionTdElement = document.createElement("td");
 
@@ -367,118 +371,10 @@ async function deleteRecipe(id) {
 }
 
 async function showUpdateRecipeModal(id) {
-
     document.getElementById("updateIngredientList").innerHTML = "";
 
-    let divElement = document.createElement("div");
+    await addRecipeModal("updateIngredientList");
 
-    let tableElement = document.createElement("table");
-    tableElement.className = "table";
-
-    let theadElement = document.createElement("thead");
-
-    let theadTrElement = document.createElement("tr");
-
-    let theadIngredientThElement = document.createElement("th");
-    let theadIngredientThText = document.createTextNode("Ingredient");
-    theadIngredientThElement.scope = "col";
-    theadIngredientThElement.appendChild(theadIngredientThText);
-
-    let theadAmountThElement = document.createElement("th");
-    let theadAmountThText = document.createTextNode("Unit");
-    theadAmountThElement.scope = "col";
-    theadAmountThElement.appendChild(theadAmountThText);
-
-    let theadUnitThElement = document.createElement("th");
-    let theadUnitThEText = document.createTextNode("Number");
-    theadUnitThElement.scope = "col";
-    theadUnitThElement.appendChild(theadUnitThEText);
-
-    let tbodyElement = document.createElement("tbody");
-    tbodyElement.id = "addIngredientsTBody";
-
-    theadTrElement.appendChild(theadIngredientThElement);
-    theadTrElement.appendChild(theadAmountThElement);
-    theadTrElement.appendChild(theadUnitThElement);
-    theadElement.appendChild(theadTrElement);
-    tableElement.appendChild(theadElement);
-    divElement.appendChild(tableElement);
-
-    document.getElementById("updateIngredientList").appendChild(divElement);
-
-    const ingredients = await getIngredients();
-
-    for (let i in ingredients) {
-
-        let trElement = document.createElement("tr");
-
-        let ingredientTdElement = document.createElement("td");
-        let ingredientListLabelElement = document.createElement("label");
-        ingredientListLabelElement.htmlFor = ingredients[i].id;
-        ingredientListLabelElement.className = "mr-2";
-        ingredientListLabelElement.textContent = ingredients[i].name;
-
-        let ingredientListInputElement = document.createElement("input");
-        ingredientListInputElement.type = "checkbox";
-        ingredientListInputElement.id = ingredients[i].id;
-        ingredientListInputElement.className = "custom-checkbox";
-        ingredientTdElement.appendChild(ingredientListLabelElement);
-        ingredientTdElement.appendChild(ingredientListInputElement);
-
-        let amountTdElement = document.createElement("td");
-        amountTdElement.style.width = "6rem";
-        let ingredientListSelectElement = document.createElement("select");
-        ingredientListSelectElement.className = "browser-default custom-select mx-1";
-        ingredientListSelectElement.id = ingredients[i].id + "unit";
-
-        let unitOption = document.createElement("option");
-        unitOption.selected = "";
-        unitOption.text = "Unit";
-
-        let unitOptionG = document.createElement("option");
-        unitOptionG.text = "G";
-        unitOptionG.value = "G";
-
-        let unitOptionDAG = document.createElement("option");
-        unitOptionDAG.text = "DAG";
-        unitOptionDAG.value = "DAG";
-
-        let unitOptionKG = document.createElement("option");
-        unitOptionKG.text = "KG";
-        unitOptionKG.value = "KG";
-
-        let unitOptionML = document.createElement("option");
-        unitOptionML.text = "ML";
-        unitOptionML.value = "ML";
-
-        let unitOptionL = document.createElement("option");
-        unitOptionL.text = "L";
-        unitOptionL.value = "L";
-
-
-        ingredientListSelectElement.appendChild(unitOption);
-        ingredientListSelectElement.appendChild(unitOptionG);
-        ingredientListSelectElement.appendChild(unitOptionDAG);
-        ingredientListSelectElement.appendChild(unitOptionKG);
-        ingredientListSelectElement.appendChild(unitOptionML);
-        ingredientListSelectElement.appendChild(unitOptionL);
-        amountTdElement.appendChild(ingredientListSelectElement);
-
-        let unitTdElement = document.createElement("td");
-        let ingredientListNumberInputElement = document.createElement("input");
-        ingredientListNumberInputElement.type = "text";
-        unitTdElement.style.width = "8rem";
-        ingredientListNumberInputElement.placeholder = "Number";
-        ingredientListNumberInputElement.className = "form-control"
-        ingredientListNumberInputElement.id = ingredients[i].id + "number";
-        unitTdElement.appendChild(ingredientListNumberInputElement);
-
-        trElement.appendChild(ingredientTdElement);
-        trElement.appendChild(amountTdElement);
-        trElement.appendChild(unitTdElement);
-        tbodyElement.appendChild(trElement);
-    }
-    tableElement.appendChild(tbodyElement);
 
     $("#updateRecipeModal").modal('show');
 
@@ -490,38 +386,33 @@ async function showUpdateRecipeModal(id) {
 
     document.getElementById("updateRecipeDescription").value = recipeToUpdate[0].RECIPE_PREPARATION
 
-    for(let i of recipeToUpdate){
-        if( document.getElementById(i.INGREDIENT_ID)){
+    for (let i of recipeToUpdate) {
+        if (document.getElementById(i.INGREDIENT_ID)) {
             document.getElementById(i.INGREDIENT_ID).checked = true
         }
-        if( document.getElementById(i.INGREDIENT_ID + "unit")){
+        if (document.getElementById(i.INGREDIENT_ID + "unit")) {
             console.log(i.UNIT)
             document.getElementById(i.INGREDIENT_ID + "unit").value = i.UNIT
         }
-        if( document.getElementById(i.INGREDIENT_ID + "number")){
+        if (document.getElementById(i.INGREDIENT_ID + "number")) {
             document.getElementById(i.INGREDIENT_ID + "number").value = i.NUMBER
         }
     }
-
     document.getElementById("updateRecipeSaveButton").onclick = updateRecipeOnClick = () => updateRecipe(id);
-
 }
 
 async function updateRecipe(id) {
-
     const allIngredients = await getIngredients();
-
     let ingredientsToUpdate = [];
-
-    for(let i of allIngredients){
-        if( document.getElementById(i.id)){
-            if(document.getElementById(i.id).checked){
-                let ingredientToUpdate ={
+    for (let i of allIngredients) {
+        if (document.getElementById(i.id)) {
+            if (document.getElementById(i.id).checked) {
+                let ingredientToUpdate = {
                     id: i.id,
                     unit: document.getElementById(i.id + "unit").value,
                     number: parseInt(document.getElementById(i.id + "number").value)
                 }
-               ingredientsToUpdate.push(ingredientToUpdate);
+                ingredientsToUpdate.push(ingredientToUpdate);
             }
         }
     }
