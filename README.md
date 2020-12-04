@@ -5,6 +5,7 @@ Web application for finding recipes for ingredients you already have in your kit
 ## Table of Contents
 
 - [Getting Started](#getting_started)
+- [Screenshots](#screenshots)
 
 ## Getting Started (Ubuntu) <a name = "getting_started"></a>
 
@@ -51,4 +52,16 @@ CookingApp will be running under the address:
 ```
 http://localhost:8080
 ```
+
+## Screenshots <a name = "Screenshots"></a>
+
+![main page](README_images/index1.png)
+
+![main page](README_images/index2.png)
+
+![recipes page](README_images/recipes1.png)
+
+![recipes page](README_images/recipes2.png)
+
+![ingredients page](README_images/ingredients1.png)
 
