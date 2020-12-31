@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    image: 'cooking-app:latest'
+    build:
+      context: .
+    container_name: cooking-app
+    ports:
+      - 8080:8080
+
