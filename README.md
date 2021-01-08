@@ -14,29 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Make sure Java is already installed on your machine:
-
-
-```
-java -version
-```
-
-If Java is not currently installed,
- you’ll see the following output:
-
-```
-Command 'java' not found, but can be installed with:
-
-apt install default-jre
-apt install openjdk-11-jre-headless
-apt install openjdk-8-jre-headless
-```
-
-In such a case, execute the following command:
-
-```
-sudo apt install default-jdk
-```
+<br/>`docker with docker-compose` https://docs.docker.com/get-docker/
 
 ### Installing 
 
@@ -45,12 +23,17 @@ Execute the following commands:
 $ cd <place-you-want-to-store-cookingapp>
 $ git clone https://github.com/Konrad-Abramowski/CookingApp.git
 $ cd CookingApp
-$ ./mvnw spring-boot:run
+$ sudo docker-compose up -d
 ```
 
 CookingApp will be running under the address:
 ```
 http://localhost:8080
+```
+
+If you want to close the application, use:
+```
+$ sudo docker-compose down
 ```
 
 ## Screenshots <a name = "Screenshots"></a>
