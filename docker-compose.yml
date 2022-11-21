@@ -6,6 +6,30 @@ services:
     build:
       context: .
     container_name: cooking-app
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.profiles.active" : "prod",
+        "spring.datasource.username": "postgres",
+        "spring.datasource.password": "123456"
+         }'
+      DATABASE_HOST: 192.168.0.164
+      DATABASE_PORT: 5432
+      DATABASE_NAME: cooking-app-db
     ports:
-      - 8080:8080
+      - "8080:8080"
+    depends_on:
+      - database
+  database:
+    image: 'postgres:13.1-alpine'
+    container_name: cooking-app-db
+    restart: always
+    environment:
+        - POSTGRES_DB=cooking-app-db
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=123456
+    volumes:
+      - ./src/main/resources/init.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./src/main/resources/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    ports:
+      - "5432:5432"
 
